@@ -1,0 +1,44 @@
+.button {
+    background-color: deepskyblue;
+    border-radius: 4px;
+    border: none;
+    padding: 8px;
+    color: white;
+    transition: all linear 0.2s;
+}
+
+.button:hover {
+    background-color: dodgerblue;
+    transition: all linear 0.2s;
+    cursor: pointer;
+}
+
+.page-content {
+    text-align: center;
+    margin: auto;
+    max-width: fit-content;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px;
+}
+
+input {
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 4px;
+}
+
+.input-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vertical-list {
+    display: grid;
+    grid-row-gap: 8px;
+}
