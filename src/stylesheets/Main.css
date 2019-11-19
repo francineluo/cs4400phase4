@@ -4,6 +4,7 @@
     border: none;
     padding: 8px;
     color: white;
+    text-decoration: none;
     transition: all linear 0.2s;
 }
 
@@ -30,6 +31,7 @@ input {
     border: 1px solid lightgrey;
     border-radius: 2px;
     padding: 4px;
+    font-size: 16px;
 }
 
 .input-field {
@@ -41,4 +43,121 @@ input {
 .vertical-list {
     display: grid;
     grid-row-gap: 8px;
+}
+
+#user-registration {
+    display: grid;
+    grid-row-gap: 8px;
+    grid-column-gap: 40px;
+    grid-template-areas:
+        "fname lname"
+        "username ."
+        "pw confirmpw";
+}
+
+#customer-registration {
+    display: grid;
+    grid-row-gap: 8px;
+    grid-column-gap: 40px;
+    grid-template-areas: 
+        "fname lname" 
+        "username ." 
+        "pw confirmpw"
+        "creditcards creditcards";
+}
+
+#manager-registration {
+    display: grid;
+    grid-row-gap: 8px;
+    grid-column-gap: 40px;
+    grid-template-areas: 
+        "fname lname" 
+        "username company" 
+        "pw confirmpw" 
+        "street street"
+        "city state"
+        "zip .";
+}
+
+#manager-customer-registration {
+    display: grid;
+    grid-row-gap: 8px;
+    grid-column-gap: 40px;
+    grid-template-areas: 
+        "fname lname" 
+        "username company" 
+        "pw confirmpw" 
+        "street street" 
+        "city state" 
+        "zip ."
+        "creditcards creditcards";
+}
+
+.input-fname {
+    grid-area: fname;
+}
+
+.input-lname {
+    grid-area: lname;
+}
+
+.input-username {
+    grid-area: username;
+}
+
+.input-company {
+    grid-area: company;
+}
+
+.input-pw {
+    grid-area: pw;
+}
+
+.input-confirmpw {
+    grid-area: confirmpw;
+}
+
+.input-street {
+    grid-area: street;
+}
+
+.input-city {
+    grid-area: city;
+}
+
+.input-state {
+    grid-area: state;
+}
+
+.input-zip {
+    grid-area: zip;
+}
+
+.credit-card-nums {
+    grid-area: creditcards;
+}
+
+.fade-enter {
+    opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 0.2s ease-in;
+}
+
+.route-section {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
 }

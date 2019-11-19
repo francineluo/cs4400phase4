@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../stylesheets/Main.css';
 
 export default class RegisterNav extends Component {
@@ -7,11 +8,11 @@ export default class RegisterNav extends Component {
             <div className="page-content">
                 <h1>Register Navigation</h1>
                 <div className="vertical-list">
-                    <button className="button">User Only</button>
-                    <button className="button">Customer Only</button>
-                    <button className="button">Manager Only</button>
-                    <button className="button">Manager-Customer Only</button>
-                    <button className="button">Back</button>
+                    <Link to="/userregistration" className="button">User Only</Link>
+                    <Link to="/customerregistration" className="button">Customer Only</Link>
+                    <Link to="/managerregistration" className="button">Manager Only</Link>
+                    <Link to="/managercustomerregistration" className="button">Manager-Customer Only</Link>
+                    <Link to="/login" className="button">Back</Link>
                 </div>
             </div>
         );
