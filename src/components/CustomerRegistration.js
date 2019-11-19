@@ -29,7 +29,7 @@ export default class CustomerRegistration extends Component {
                 </div>
                 <div className="button-group">
                     <Link to="/registernav" className="button">Back</Link>
-                    <Link to="/customerfunctionality" className="button">Register</Link>
+                    <Link to={{ pathname: "/functionality", state: { isCustomer: true } }} className="button">Register</Link>
                 </div>
             </div>
         );

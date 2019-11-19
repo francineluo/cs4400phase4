@@ -6,7 +6,7 @@ export default class ManagerRegistration extends Component {
     render() {
         return (
             <div className="page-content">
-                <h1>Customer Registration</h1>
+                <h1>Manager Registration</h1>
                 <div id="manager-registration">
                     <div className="input-field input-fname">
                         First Name: <input type="text" name="fname" />
@@ -41,7 +41,7 @@ export default class ManagerRegistration extends Component {
                 </div>
                 <div className="button-group">
                     <Link to="/registernav" className="button">Back</Link>
-                    <Link to="/managerfunctionality" className="button">Register</Link>
+                    <Link to={{ pathname: "/functionality", state: { isManager: true } }} className="button">Register</Link>
                 </div>
             </div>
         );

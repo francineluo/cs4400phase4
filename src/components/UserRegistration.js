@@ -26,7 +26,7 @@ export default class UserRegistration extends Component {
                 </div>
                 <div className="button-group">
                     <Link to="/registernav" className="button">Back</Link>
-                    <Link to="/userfunctionality" className="button">Register</Link>
+                    <Link to={{ pathname: "/functionality", state: {} }} className="button">Register</Link>
                 </div>
             </div>
         );
