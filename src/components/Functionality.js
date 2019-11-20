@@ -8,7 +8,7 @@ export default class Functionality extends Component {
         /*TODO: once we start storing the current user's information, grab the user type
          * from the current user instead of having it passed through the props. if there is
          * no current user (i.e. not logged in), redirect to login page.*/
-        if (typeof props.location.state == "undefined") {
+        if (typeof props.location.state === "undefined") {
             this.state = { loggedIn: false };
         } else {
             this.state = {

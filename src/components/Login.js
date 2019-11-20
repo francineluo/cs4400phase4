@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../stylesheets/Main.css';
-import RegisterNav from './RegisterNav';
 
 export default class Login extends Component {
     render() {

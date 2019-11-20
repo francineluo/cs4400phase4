@@ -17,6 +17,17 @@ import CustomerRegistration from './CustomerRegistration';
 import ManagerRegistration from './ManagerRegistration';
 import ManagerCustomerRegistration from './ManagerCustomerRegistration';
 import Functionality from './Functionality';
+import ManageUser from './ManageUser';
+import ManageCompany from './ManageCompany';
+import CreateTheater from './CreateTheater';
+import CompanyDetail from './CompanyDetail';
+import CreateMovie from './CreateMovie';
+import TheaterOverview from './TheaterOverview';
+import ScheduleMovie from './ScheduleMovie';
+import ExploreMovie from './ExploreMovie';
+import ViewHistory from './ViewHistory';
+import ExploreTheater from './ExploreTheater';
+import VisitHistory from './VisitHistory';
 
 function MasterRouter({ location }) {
     return (
@@ -35,6 +46,17 @@ function MasterRouter({ location }) {
                         <Route path="/managerregistration" component={ManagerRegistration} />
                         <Route path="/managercustomerregistration" component={ManagerCustomerRegistration} />
                         <Route path="/functionality" component={Functionality} />
+                        <Route path="/manageuser" component={ManageUser} />
+                        <Route path="/managecompany" component={ManageCompany} />
+                        <Route path="/createtheater" component={CreateTheater} />
+                        <Route path="/companydetail" component={CompanyDetail} />
+                        <Route path="/createmovie" component={CreateMovie} />
+                        <Route path="/theateroverview" component={TheaterOverview} />
+                        <Route path="/schedulemovie" component={ScheduleMovie} />
+                        <Route path="/exploremovie" component={ExploreMovie} />
+                        <Route path="/viewhistory" component={ViewHistory} />
+                        <Route path="/exploretheater" component={ExploreTheater} />
+                        <Route path="/visithistory" component={VisitHistory} />
                         <Route path="/">
                             <Redirect to="/login" />
                         </Route>
