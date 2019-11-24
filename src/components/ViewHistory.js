@@ -26,7 +26,7 @@ export default class ViewHistory extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isCustomer: true } }} className="button">Back</Link>
                 </div>
             </div>
         );

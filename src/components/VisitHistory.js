@@ -35,7 +35,7 @@ export default class VisitHistory extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: {} }} className="button">Back</Link>
                 </div>
             </div>
         );

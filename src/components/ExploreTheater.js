@@ -39,7 +39,7 @@ export default class ExploreTheater extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: {} }} className="button">Back</Link>
                     <div className="input-field">
                         Visit Date: <input type="text" name="visitdate" />
                     </div>

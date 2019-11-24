@@ -29,7 +29,7 @@ export default class CompanyDetail extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isAdmin: true } }} className="button">Back</Link>
                 </div>
             </div>
         );

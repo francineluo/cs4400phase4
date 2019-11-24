@@ -27,7 +27,7 @@
     padding: 8px;
 }
 
-input {
+input, select {
     border: 1px solid lightgrey;
     border-radius: 2px;
     padding: 4px;

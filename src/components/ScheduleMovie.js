@@ -19,7 +19,7 @@ export default class ScheduleMovie extends Component {
                     </div>
                 </div>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isManager: true } }} className="button">Back</Link>
                     <Link to="/" className="button">Add</Link>
                 </div>
             </div>

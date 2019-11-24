@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import '../stylesheets/Main.css';
+import StaticData from '../data/StaticData';
 
 export default class Functionality extends Component {
     constructor(props) {
         super(props);
-        /*TODO: once we start storing the current user's information, grab the user type
-         * from the current user instead of having it passed through the props. if there is
-         * no current user (i.e. not logged in), redirect to login page.*/
-        if (typeof props.location.state === "undefined") {
+        let currentUser = StaticData.getCurrentUser();
+        if (typeof currentUser === "undefined") {
             this.state = { loggedIn: false };
         } else {
+            let userType = StaticData.getUserType(currentUser);
             this.state = {
                 loggedIn: true,
-                isCustomer: props.location.state.isCustomer,
-                isManager: props.location.state.isManager,
-                isAdmin: props.location.state.isAdmin
+                isAdmin: userType[0],
+                isCustomer: userType[1],
+                isManager: userType[2]
             };
         }
     }
@@ -23,9 +23,9 @@ export default class Functionality extends Component {
     userOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button" > Back</Link>
             </div>
         );
     }
@@ -33,11 +33,11 @@ export default class Functionality extends Component {
     customerOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Explore Movie</Link>
-                <Link to="/" className="button">View History</Link>
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/exploremovie" className="button">Explore Movie</Link>
+                <Link to="/viewhistory" className="button">View History</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
             </div>
         );
     }
@@ -45,25 +45,25 @@ export default class Functionality extends Component {
     managerOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Theater Overview</Link>
-                <Link to="/" className="button">Schedule Movie</Link>
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/theateroverview" className="button">Theater Overview</Link>
+                <Link to="/schedulemovie" className="button">Schedule Movie</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
             </div>
         );
     }
 
-    customerManagerOptions() {
+    managerCustomerOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Explore Movie</Link>
-                <Link to="/" className="button">View History</Link>
-                <Link to="/" className="button">Theater Overview</Link>
-                <Link to="/" className="button">Schedule Movie</Link>
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/exploremovie" className="button">Explore Movie</Link>
+                <Link to="/viewhistory" className="button">View History</Link>
+                <Link to="/theateroverview" className="button">Theater Overview</Link>
+                <Link to="/schedulemovie" className="button">Schedule Movie</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
             </div>
         );
     }
@@ -71,12 +71,12 @@ export default class Functionality extends Component {
     adminOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Manage User</Link>
-                <Link to="/" className="button">Manage Company</Link>
-                <Link to="/" className="button">Create Movie</Link>
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/manageuser" className="button">Manage User</Link>
+                <Link to="/managecompany" className="button">Manage Company</Link>
+                <Link to="/createmovie" className="button">Create Movie</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
             </div>
         );
     }
@@ -84,14 +84,14 @@ export default class Functionality extends Component {
     adminCustomerOptions() {
         return (
             <div className="functionality-options">
-                <Link to="/" className="button">Manage User</Link>
-                <Link to="/" className="button">Manage Company</Link>
-                <Link to="/" className="button">Create Movie</Link>
-                <Link to="/" className="button">Explore Movie</Link>
-                <Link to="/" className="button">View History</Link>
-                <Link to="/" className="button">Explore Theater</Link>
-                <Link to="/" className="button">Visit History</Link>
-                <Link to="/" className="button">Back</Link>
+                <Link to="/manageuser" className="button">Manage User</Link>
+                <Link to="/managecompany" className="button">Manage Company</Link>
+                <Link to="/createmovie" className="button">Create Movie</Link>
+                <Link to="/exploremovie" className="button">Explore Movie</Link>
+                <Link to="/viewhistory" className="button">View History</Link>
+                <Link to="/exploretheater" className="button">Explore Theater</Link>
+                <Link to="/visithistory" className="button">Visit History</Link>
+                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
             </div>
         );
     }
@@ -111,7 +111,7 @@ export default class Functionality extends Component {
             options = this.adminOptions();
         } else if (this.state.isCustomer && this.state.isManager) {
             userType = "Manager-Customer";
-            options = this.customerManagerOptions();
+            options = this.managerCustomerOptions();
         } else if (this.state.isCustomer) {
             userType = "Customer";
             options = this.customerOptions();

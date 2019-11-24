@@ -19,7 +19,7 @@ export default class CreateMovie extends Component {
                     </div>
                 </div>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isAdmin: true } }} className="button">Back</Link>
                     <Link to="/" className="button">Create</Link>
                 </div>
             </div>

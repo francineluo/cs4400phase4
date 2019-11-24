@@ -46,7 +46,7 @@ export default class ExploreMovie extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isCustomer: true } }} className="button">Back</Link>
                     <div className="input-field">
                         Card Number: <input type="text" name="cardnumber" />
                     </div>

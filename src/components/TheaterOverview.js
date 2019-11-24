@@ -41,7 +41,7 @@ export default class TheaterOverview extends Component {
                     </tbody>
                 </table>
                 <div className="button-group">
-                    <Link to="/" className="button">Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isManager: true } }} className="button">Back</Link>
                 </div>
             </div>
         );

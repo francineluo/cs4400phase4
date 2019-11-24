@@ -37,7 +37,7 @@ export default class ManageUser extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    <Link to="/" className="button" style={{ width: "fit-content" }}>Back</Link>
+                    <Link to={{ pathname: "/functionality", state: { isAdmin: true } }} className="button" style={{ width: "fit-content" }}>Back</Link>
                 </div>
             </div>
         );
