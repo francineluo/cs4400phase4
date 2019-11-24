@@ -1,5 +1,5 @@
 export default class StaticData {
-    //username: [pw, isAdmin, isCustomer, isManager, fname, lname]
+    //username: [pw, isAdmin, isCustomer, isManager, fname, lname, creditCards]
     static dummyUsers = {
         "admin": ["admin", true, false, false],
         "admincustomer": ["admincustomer", true, true, false],
@@ -40,9 +40,9 @@ export default class StaticData {
         this.setCurrentUser(username);
     }
 
-    static registerCustomer(fname, lname, username, pw) {
+    static registerCustomer(fname, lname, username, pw, creditCards) {
         //TODO: store hashed password instead of plaintext password, add credit card nums
-        this.dummyUsers[username] = [pw, false, true, false, fname, lname];
+        this.dummyUsers[username] = [pw, false, true, false, fname, lname, creditCards];
         this.setCurrentUser(username);
     }
 

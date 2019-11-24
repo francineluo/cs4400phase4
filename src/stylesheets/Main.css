@@ -40,6 +40,10 @@ input, select {
     align-items: center;
 }
 
+.input-field > input, select {
+    margin-left: 10px;
+}
+
 .vertical-list {
     display: grid;
     grid-row-gap: 8px;
@@ -148,6 +152,10 @@ input, select {
     grid-area: street;
 }
 
+.input-street > input {
+    flex-grow: 1;
+}
+
 .input-city {
     grid-area: city;
 }
@@ -170,6 +178,38 @@ input, select {
 
 .credit-card-nums {
     grid-area: creditcards;
+    display: flex;
+    justify-content: center;
+}
+
+.credit-card-nums > .vertical-list {
+    margin-left: 20px;
+}
+
+.card-button {
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid darkgrey;
+    padding: 4px;
+    color: black;
+    font-size: 12px;
+    transition: all linear 0.2s;
+}
+
+.card-button:hover {
+    background-color: lightgrey;
+    transition: all linear 0.2s;
+    cursor: pointer;
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-info > div {
+    margin-left: 10px;
 }
 
 .fade-enter {

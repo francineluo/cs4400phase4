@@ -9,8 +9,10 @@ export default class ManagerCustomerRegistration extends Component {
         this.state = {
             redirect: false,
             showMessage: false,
-            message: ""
+            message: "",
+            creditCards: []
         }
+        this.addCard = this.addCard.bind(this);
     }
 
     register(e) {
@@ -37,6 +39,14 @@ export default class ManagerCustomerRegistration extends Component {
             return;
         }
 
+        if (this.state.creditCards.length === 0) {
+            this.setState({
+                showMessage: true,
+                message: "You must have at least one credit card"
+            });
+            return;
+        }
+
         let allUsernames = StaticData.getAllUsernames();
         if (allUsernames.includes(username)) {
             this.setState({
@@ -59,8 +69,60 @@ export default class ManagerCustomerRegistration extends Component {
         }
         //TODO: check for unique address
 
-        StaticData.registerManagerCustomer(fname, lname, username, pw);
+        StaticData.registerManagerCustomer(fname, lname, username, pw, this.state.creditCards);
         this.setState({ redirect: true });
+    }
+
+    creditCardNums() {
+        let elements = [];
+        for (let i in this.state.creditCards) {
+            elements.push(
+                <div className="card-info">
+                    {this.state.creditCards[i]}
+                    <div className="card-button" name="remove" onClick={e => this.removeCard(i)}>Remove</div>
+                </div>
+            );
+        }
+
+        if (elements.length < 5) {
+            elements.push(
+                <div className="card-info">
+                    <input type="text" name="newcard" id="newcard" />
+                    <div className="card-button" onClick={this.addCard}>Add</div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="vertical-list">
+                {elements}
+            </div>
+        );
+    }
+
+    removeCard(i) {
+        let updatedCards = this.state.creditCards;
+        updatedCards.splice(i, 1);
+        this.setState({
+            creditCards: updatedCards
+        });
+    }
+
+    addCard() {
+        let newCard = document.getElementById("newcard").value;
+        //TODO: check for unique credit card among ALL user, not just current one
+        if (this.state.creditCards.includes(newCard)) {
+            this.setState({
+                showMessage: true,
+                message: "That credit card number is already being used"
+            });
+            return;
+        }
+        let updatedCards = this.state.creditCards;
+        updatedCards.push(newCard);
+        this.setState({
+            creditCards: updatedCards
+        });
     }
 
     showMessage() {
@@ -129,6 +191,7 @@ export default class ManagerCustomerRegistration extends Component {
                     </div>
                     <div className="credit-card-nums">
                         Credit Card #
+                        {this.creditCardNums()}
                     </div>
                 </div>
                 <div className="button-group">
