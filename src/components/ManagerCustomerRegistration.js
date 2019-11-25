@@ -27,7 +27,6 @@ export default class ManagerCustomerRegistration extends Component {
         let city = document.getElementById("city").value;
         let state = document.getElementById("state").value;
         let zip = document.getElementById("zip").value;
-        //TODO: credit card nums
 
         if (fname.length === 0 || lname.length === 0 || username.length === 0 ||
             pw.length === 0 || confirmpw.length === 0 || company.length === 0 ||
