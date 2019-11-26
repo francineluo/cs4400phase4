@@ -1,9 +1,12 @@
 ## Instructions for running the web app on localhost
 
 Clone this repository onto your machine. In your terminal, navigate to the root directory.
+
 First, run `npm install` to install all dependencies.
-Then run `npm run server` to start the server. It should begin listening on port 5000.
-Finally, run `npm start` to launch the web app. It should be live at http://localhost:3000.
+
+Run `npm run server` to start the server. It should begin listening on port 5000.
+
+Open another terminal, navigate to the root directory, and run `npm start` to launch the web app. It should be live at http://localhost:3000.
 
 ## The rest of this README is the Create React App info
 
