@@ -1,3 +1,12 @@
+## Instructions for running the web app
+
+Clone this repository onto your machine. In your terminal, navigate to the root directory.
+First, run `npm install` to install all dependencies.
+Then run `npm run server` to start the server. It should begin listening on port 5000.
+Finally, run `npm start` to launch the web app. It should be live at "http://localhost:3000".
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

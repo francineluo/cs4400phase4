@@ -7,6 +7,10 @@
     "@types/node": "12.12.7",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "nodemon": "^2.0.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
@@ -19,6 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "server": "npx nodemon -r esm server/server.js -w server"
+  },
+  "proxy": "http://localhost:5000/"
 }
