@@ -1,44 +1,60 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../stylesheets/Main.css';
-import StaticData from '../data/StaticData';
+import SortIcon from '../sort-solid.svg';
+import SortUpIcon from '../sort-up-solid.svg';
+import SortDownIcon from '../sort-down-solid.svg';
 
 export default class ManageUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: StaticData.getAllUsernames(),
-            filterUsername: "",
-            filterStatus: ""
+            users: [],
+            sortBy: "",
+            sortDirection: "",
+            nameSortIcon: SortIcon,
+            cardSortIcon: SortIcon,
+            typeSortIcon: SortIcon,
+            statusSortIcon: SortIcon
         }
-        this.updateUsers = this.updateUsers.bind(this);
-        this.filter = this.filter.bind(this);
+        this.filterUsers = this.filterUsers.bind(this);
         this.approve = this.approve.bind(this);
         this.decline = this.decline.bind(this);
         this.selectAll = this.selectAll.bind(this);
+        this.sort = this.sort.bind(this);
         this.userList = this.userList.bind(this);
     }
 
-    updateUsers() {
-        this.setState({
-            users: StaticData.getAllUsernames()
-        });
+    componentDidMount() {
+        this.filterUsers();
     }
 
-    filter() {
-        this.setState({
-            filterUsername: document.getElementById("username").value,
-            filterStatus: document.getElementById("status").value
-        });
+    filterUsers() {
+        var url = new URL("http://" + window.location.host + "/api/admin_filter_user");
+        var params = {
+            username: document.getElementById("usernameInput").value,
+            status: document.getElementById("status").value,
+            sortBy: this.state.sortBy,
+            sortDirection: this.state.sortDirection
+        };
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url)
+            .then(response => response.json());
+
+        fetch("/api/get_filtered_users")
+            .then(response => response.json())
+            .then(data => this.setState({ users: data }));
     }
 
     approve() {
         let selectedUsers = this.getSelectedUsers();
         for (let i in selectedUsers) {
             let username = selectedUsers[i];
-            StaticData.setStatus(username, "Approved");
+            fetch("/api/admin_approve_user?username=" + username)
+                .then(response => response.json());
         }
-        this.updateUsers();
+        this.filterUsers();
         this.uncheckAll();
     }
 
@@ -46,11 +62,10 @@ export default class ManageUser extends Component {
         let selectedUsers = this.getSelectedUsers();
         for (let i in selectedUsers) {
             let username = selectedUsers[i];
-            if (StaticData.getStatus(username) !== "Approved") {
-                StaticData.setStatus(username, "Declined");
-            }
+            fetch("/api/admin_decline_user?username=" + username)
+                .then(response => response.json());
         }
-        this.updateUsers();
+        this.filterUsers();
         this.uncheckAll();
     }
 
@@ -99,59 +114,93 @@ export default class ManageUser extends Component {
         );
     }
 
+    sort(e) {
+        let sortBy = e.target.id;
+        let sortDir = "";
+        let sortIcon = SortIcon;
+        if (this.state.sortBy !== sortBy || this.state.sortDirection === "") {
+            sortDir = "DESC";
+            sortIcon = SortDownIcon;
+        } else if (this.state.sortDirection === "DESC") {
+            sortDir = "ASC";
+            sortIcon = SortUpIcon;
+        } else if (this.state.sortDirection === "ASC") {
+            sortBy = "";
+            sortDir = "";
+            sortIcon = SortIcon;
+        }
+        if (sortBy === "") {
+            this.setState({
+                nameSortIcon: SortIcon,
+                cardSortIcon: SortIcon,
+                typeSortIcon: SortIcon,
+                statusSortIcon: SortIcon
+            });
+        } else if (sortBy === "username") {
+            this.setState({
+                nameSortIcon: sortIcon,
+                cardSortIcon: SortIcon,
+                typeSortIcon: SortIcon,
+                statusSortIcon: SortIcon
+            });
+        } else if (sortBy === "creditCardCount") {
+            this.setState({
+                nameSortIcon: SortIcon,
+                cardSortIcon: sortIcon,
+                typeSortIcon: SortIcon,
+                statusSortIcon: SortIcon
+            });
+        } else if (sortBy === "userType") {
+            this.setState({
+                nameSortIcon: SortIcon,
+                cardSortIcon: SortIcon,
+                typeSortIcon: sortIcon,
+                statusSortIcon: SortIcon
+            });
+        } else if (sortBy === "status") {
+            this.setState({
+                nameSortIcon: SortIcon,
+                cardSortIcon: SortIcon,
+                typeSortIcon: SortIcon,
+                statusSortIcon: sortIcon
+            });
+        }
+        this.setState({
+            sortBy: sortBy,
+            sortDirection: sortDir
+        });
+        this.filterUsers();
+    }
+
     userList() {
         let elements = [];
         for (let i in this.state.users) {
-            let username = this.state.users[i];
-            let filterName = this.state.filterUsername;
-            let userStatus = StaticData.getStatus(username);
-            let filterStatus = this.state.filterStatus;
-            if (username.includes(filterName) &&
-                (filterStatus === "All" || userStatus.includes(filterStatus))) {
-                let userTypeArr = StaticData.getUserType(username);
-                let userType;
-                if (userTypeArr[0] && userTypeArr[1]) {
-                    userType = "Admin-Customer";
-                } else if (userTypeArr[0]) {
-                    userType = "Admin-Only";
-                } else if (userTypeArr[1] && userTypeArr[2]) {
-                    userType = "Manager-Customer";
-                } else if (userTypeArr[1]) {
-                    userType = "Customer";
-                } else if (userTypeArr[2]) {
-                    userType = "Manager-Only";
-                } else {
-                    userType = "User";
-                }
-                let substringIndex = username.indexOf(filterName);
-                let uname1 = username.slice(0, substringIndex);
-                let uname2 = username.slice(substringIndex + filterName.length, username.length);
-                elements.push(
-                    <tr key={username}>
-                        <td><input type="checkbox" name="checkbox" value={username} /></td>
-                        <td>{uname1}<b>{filterName}</b>{uname2}</td>
-                        <td>{StaticData.getCreditCardCount(username)}</td>
-                        <td>{userType}</td>
-                        <td>{userStatus}</td>
-                    </tr>
-                );
-            }
+            let user = this.state.users[i];
+            let username = user.username;
+            elements.push(
+                <tr key={username}>
+                    <td><input type="checkbox" name="checkbox" value={username} /></td>
+                    <td>{username}</td>
+                    <td>{user.creditCardCount}</td>
+                    <td>{user.userType}</td>
+                    <td>{user.status}</td>
+                </tr>
+            );
         }
 
         if (elements.length === 0) {
             return (<p>No users found. Try changing the filters.</p>);
         }
 
-        //TODO: make columns sortable
         return (
             <table>
                 <tbody>
                     <tr>
                         <th><input type="checkbox" name="checkbox" value="selectAll" id="selectAll" onClick={this.selectAll} /></th>
-                        <th>Username</th>
-                        <th>Credit Card Count</th>
-                        <th>User Type</th>
-                        <th>Status</th>
+                        <th>Username <img src={this.state.nameSortIcon} alt="sort" id="username" height="16px" onClick={e => this.sort(e)} /></th>
+                        <th>Credit Card Count <img src={this.state.cardSortIcon} alt="sort" id="creditCardCount" height="16px" onClick={e => this.sort(e)} /></th>
+                        <th>User Type <img src={this.state.typeSortIcon} alt="sort" id="userType" height="16px" onClick={e => this.sort(e)} /></th>
+                        <th>Status <img src={this.state.statusSortIcon} alt="sort" id="status" height="16px" onClick={e => this.sort(e)} /></th>
                     </tr>
                     {elements}
                 </tbody>
@@ -166,14 +215,14 @@ export default class ManageUser extends Component {
                 <div className="vertical-list">
                     <div className="horizontal-list">
                         <div className="input-field">
-                            Username: <input type="text" name="username" id="username" />
+                            Username: <input type="text" name="username" id="usernameInput" />
                         </div>
                         <div className="input-field">
                             Status: {this.statusDropdown()}
                         </div>
                     </div>
                     <div className="button-group">
-                        <div className="button" onClick={this.filter}>Filter</div>
+                        <div className="button" onClick={this.filterUsers}>Filter</div>
                         <div className="button" onClick={this.approve}>Approve</div>
                         <div className="button" onClick={this.decline}>Decline</div>
                     </div>

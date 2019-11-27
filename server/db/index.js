@@ -2,8 +2,8 @@ import * as mysql from 'mysql';
 import config from '../config';
 
 //import queries
-import Company from './Company';
-import User from './User';
+import ManageCompany from './ManageCompany';
+import ManageUser from './ManageUser';
 
 export const Connection = mysql.createConnection(config.mysql);
 
@@ -13,6 +13,6 @@ Connection.connect(err => {
 });
 
 export default {
-    Company,
-    User
+    ManageCompany,
+    ManageUser
 }

@@ -1,5 +1,33 @@
 import { Connection } from './index';
 
+export const admin_approve_user = async (params) => {
+    return new Promise((resolve, reject) => {
+        Connection.query(
+            "CALL admin_approve_user(?)",
+            [params.username],
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+    });
+}
+
+export const admin_decline_user = async (params) => {
+    return new Promise((resolve, reject) => {
+        Connection.query(
+            "CALL admin_decline_user(?)",
+            [params.username],
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+    });
+}
+
 export const admin_filter_user = async (params) => {
     return new Promise((resolve, reject) => {
         Connection.query(
@@ -28,6 +56,8 @@ export const get_filtered_users = async () => {
 }
 
 export default {
+    admin_approve_user,
+    admin_decline_user,
     admin_filter_user,
     get_filtered_users
 }
