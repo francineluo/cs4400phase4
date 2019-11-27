@@ -3,6 +3,7 @@ import config from '../config';
 
 //import queries
 import Login from './Login';
+import Registration from './Registration';
 import ManageUser from './ManageUser';
 import ManageCompany from './ManageCompany';
 
@@ -15,6 +16,7 @@ Connection.connect(err => {
 
 export default {
     Login,
+    Registration,
     ManageUser,
     ManageCompany
 }

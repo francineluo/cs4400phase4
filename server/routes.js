@@ -6,8 +6,8 @@ const router = express.Router();
 //Screen 1: User login
 router.get('/api/user_login', async (req, res) => {
     try {
-        let users = await DB.Login.user_login(req.query);
-        res.json(users);
+        let queryResult = await DB.Login.user_login(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -16,8 +16,29 @@ router.get('/api/user_login', async (req, res) => {
 
 router.get('/api/get_user_info', async (req, res) => {
     try {
-        let users = await DB.Login.get_user_info(req.query);
-        res.json(users);
+        let queryResult = await DB.Login.get_user_info(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Screen 3: User registration
+router.get('/api/user_register', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.user_register(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_all_usernames', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.get_all_usernames(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -27,8 +48,8 @@ router.get('/api/get_user_info', async (req, res) => {
 //Screen 13: Admin filter user
 router.get('/api/admin_approve_user', async (req, res) => {
     try {
-        let users = await DB.ManageUser.admin_approve_user(req.query);
-        res.json(users);
+        let queryResult = await DB.ManageUser.admin_approve_user(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -37,8 +58,8 @@ router.get('/api/admin_approve_user', async (req, res) => {
 
 router.get('/api/admin_decline_user', async (req, res) => {
     try {
-        let users = await DB.ManageUser.admin_decline_user(req.query);
-        res.json(users);
+        let queryResult = await DB.ManageUser.admin_decline_user(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -47,8 +68,8 @@ router.get('/api/admin_decline_user', async (req, res) => {
 
 router.get('/api/admin_filter_user', async (req, res) => {
     try {
-        let users = await DB.ManageUser.admin_filter_user(req.query);
-        res.json(users);
+        let queryResult = await DB.ManageUser.admin_filter_user(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -57,8 +78,8 @@ router.get('/api/admin_filter_user', async (req, res) => {
 
 router.get('/api/get_filtered_users', async (req, res) => {
     try {
-        let users = await DB.ManageUser.get_filtered_users();
-        res.json(users);
+        let queryResult = await DB.ManageUser.get_filtered_users();
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -69,8 +90,8 @@ router.get('/api/get_filtered_users', async (req, res) => {
 //Screen 14: Admin filter company
 router.get('/api/admin_filter_company', async (req, res) => {
     try {
-        let companies = await DB.ManageCompany.admin_filter_company(req.query);
-        res.json(companies);
+        let queryResult = await DB.ManageCompany.admin_filter_company(req.query);
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
@@ -79,8 +100,8 @@ router.get('/api/admin_filter_company', async (req, res) => {
 
 router.get('/api/get_filtered_companies', async (req, res) => {
     try {
-        let companies = await DB.ManageCompany.get_filtered_companies();
-        res.json(companies);
+        let queryResult = await DB.ManageCompany.get_filtered_companies();
+        res.json(queryResult);
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
