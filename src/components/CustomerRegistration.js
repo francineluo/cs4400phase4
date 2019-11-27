@@ -10,13 +10,40 @@ export default class CustomerRegistration extends Component {
             redirect: false,
             showMessage: false,
             message: "",
+            allUsernames: [],
+            allCreditCards: [],
+            userInfo: [],
             creditCards: []
         }
+        this.getAllUsernames = this.getAllUsernames.bind(this);
         this.addCard = this.addCard.bind(this);
     }
 
-    register(e) {
-        e.preventDefault();
+    componentDidMount() {
+        this.getAllUsernames();
+        this.getAllCreditCards();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.userInfo !== this.state.userInfo) {
+            StaticData.setCurrentUser(this.state.userInfo);
+            this.setState({ redirect: true });
+        }
+    }
+
+    getAllUsernames() {
+        fetch("/api/get_all_usernames")
+            .then(response => response.json())
+            .then(data => this.setState({ allUsernames: data }));
+    }
+
+    getAllCreditCards() {
+        fetch("/api/get_all_creditcards")
+            .then(response => response.json())
+            .then(data => this.setState({ allCreditCards: data }));
+    }
+
+    checkFields() {
         let fname = document.getElementById("fname").value;
         let lname = document.getElementById("lname").value;
         let username = document.getElementById("username").value;
@@ -29,7 +56,7 @@ export default class CustomerRegistration extends Component {
                 showMessage: true,
                 message: "Please fill out all fields"
             });
-            return;
+            return false;
         }
 
         if (this.state.creditCards.length === 0) {
@@ -37,32 +64,79 @@ export default class CustomerRegistration extends Component {
                 showMessage: true,
                 message: "You must have at least one credit card"
             });
-            return;
+            return false;
         }
 
-        let allUsernames = StaticData.getAllUsernames();
-        if (allUsernames.includes(username)) {
+        let usernameArray = [];
+        for (let i in this.state.allUsernames) {
+            usernameArray.push(this.state.allUsernames[i].username);
+        }
+        if (usernameArray.includes(username)) {
             this.setState({
                 showMessage: true,
                 message: "Username is taken"
             });
-            return;
+            return false;
         } else if (pw.length < 8) {
             this.setState({
                 showMessage: true,
                 message: "Password must be at least 8 characters"
             });
-            return;
+            return false;
         } else if (pw !== confirmpw) {
             this.setState({
                 showMessage: true,
                 message: "Confirm password does not match password"
             });
-            return;
+            return false;
         }
+        return true;
+    }
 
-        StaticData.registerCustomer(fname, lname, username, pw, this.state.creditCards);
-        this.setState({ redirect: true });
+    register(e) {
+        e.preventDefault();
+        if (this.checkFields()) {
+            //register
+            var url = new URL("http://" + window.location.host + "/api/customer_only_register");
+            var params = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("pw").value,
+                fname: document.getElementById("fname").value,
+                lname: document.getElementById("lname").value
+            };
+            url.search = new URLSearchParams(params).toString();
+
+            fetch(url)
+                .then(response => response.json());
+
+            //add cards
+            for (let i in this.state.creditCards) {
+                url = new URL("http://" + window.location.host + "/api/customer_add_creditcard");
+                params = {
+                    username: document.getElementById("username").value,
+                    creditcard: this.state.creditCards[i]
+                };
+                url.search = new URLSearchParams(params).toString();
+
+                fetch(url)
+                    .then(response => response.json());
+            }
+
+            //login
+            url = new URL("http://" + window.location.host + "/api/user_login");
+            params = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("pw").value
+            };
+            url.search = new URLSearchParams(params).toString();
+
+            fetch(url)
+                .then(response => response.json());
+
+            fetch("/api/get_user_info")
+                .then(response => response.json())
+                .then(data => this.setState({ userInfo: data }));
+        }
     }
 
     creditCardNums() {
@@ -79,7 +153,7 @@ export default class CustomerRegistration extends Component {
         if (elements.length < 5) {
             elements.push(
                 <div className="card-info">
-                    <input type="text" name="newcard" id="newcard" />
+                    <input type="number" name="newcard" id="newcard" />
                     <div className="card-button" onClick={this.addCard}>Add</div>
                 </div>
             );
@@ -102,17 +176,30 @@ export default class CustomerRegistration extends Component {
 
     addCard() {
         let newCard = document.getElementById("newcard").value;
-        //TODO: check for unique credit card among ALL user, not just current one
-        if (this.state.creditCards.includes(newCard)) {
+        if (newCard.length !== 16) {
+            this.setState({
+                showMessage: true,
+                message: "Credit card number must be 16 digits"
+            });
+            return;
+        }
+
+        let cardArray = [];
+        for (let i in this.state.allCreditCards) {
+            cardArray.push(this.state.allCreditCards[i].creditCardNum);
+        }
+        if (cardArray.includes(newCard)) {
             this.setState({
                 showMessage: true,
                 message: "That credit card number is already being used"
             });
             return;
         }
+
         let updatedCards = this.state.creditCards;
         updatedCards.push(newCard);
         this.setState({
+            showMessage: false,
             creditCards: updatedCards
         });
     }

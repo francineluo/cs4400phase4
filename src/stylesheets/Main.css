@@ -225,6 +225,10 @@ input[type=number] {
     margin-left: 10px;
 }
 
+.card-info > input[type=number] {
+    width: 200px;
+} 
+
 .fade-enter {
     opacity: 0.01;
 }
