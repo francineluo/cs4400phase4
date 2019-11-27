@@ -8,6 +8,10 @@ Run `npm run server` to start the server. It should begin listening on port 5000
 
 Open another terminal, navigate to the root directory, and run `npm start` to launch the web app. It should be live at http://localhost:3000.
 
+## Credit
+
+SVG Icons were made by FontAwesome. The license can be found [here](https://fontawesome.com/license).
+
 ## The rest of this README is the Create React App info
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

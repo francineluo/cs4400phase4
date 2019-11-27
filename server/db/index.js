@@ -1,8 +1,9 @@
 import * as mysql from 'mysql';
 import config from '../config';
 
-//import tables
+//import queries
 import Company from './Company';
+import User from './User';
 
 export const Connection = mysql.createConnection(config.mysql);
 
@@ -12,5 +13,6 @@ Connection.connect(err => {
 });
 
 export default {
-    Company
+    Company,
+    User
 }

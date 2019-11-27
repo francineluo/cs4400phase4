@@ -142,6 +142,7 @@ export default class ManageUser extends Component {
             return (<p>No users found. Try changing the filters.</p>);
         }
 
+        //TODO: make columns sortable
         return (
             <table>
                 <tbody>
@@ -177,7 +178,9 @@ export default class ManageUser extends Component {
                         <div className="button" onClick={this.decline}>Decline</div>
                     </div>
                     {this.userList()}
-                    <Link to={{ pathname: "/functionality", state: { isAdmin: true } }} className="button" style={{ width: "fit-content" }}>Back</Link>
+                    <div className="button-group">
+                        <Link to="/functionality" className="button">Back</Link>
+                    </div>
                 </div>
             </div>
         );

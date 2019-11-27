@@ -34,6 +34,10 @@ input, select {
     font-size: 16px;
 }
 
+input[type=number] {
+    width: 80px;
+} 
+
 .input-field {
     display: flex;
     justify-content: space-between;
@@ -41,7 +45,11 @@ input, select {
 }
 
 .input-field > input, select {
-    margin-left: 10px;
+    margin: 0 10px;
+}
+
+.input-num-group {
+    margin: 0 10px;
 }
 
 .vertical-list {
@@ -56,6 +64,11 @@ input, select {
 
 .horizontal-list > div {
     grid-row: 1;
+}
+
+.centered {
+    width: fit-content;
+    margin: auto;
 }
 
 .functionality-options {
