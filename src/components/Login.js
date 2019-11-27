@@ -10,43 +10,49 @@ export default class Login extends Component {
             this.state = {
                 redirectFromLogout: false,
                 redirect: false,
-                isAdmin: false,
-                isCustomer: false,
-                isManager: false,
+                userInfo: [],
                 invalidLogin: false
             };
         } else {
             this.state = {
                 redirectFromLogout: props.location.state.loggedOut,
                 redirect: false,
-                isAdmin: false,
-                isCustomer: false,
-                isManager: false,
+                userInfo: [],
                 invalidLogin: false
             };
+        }
+        this.login = this.login.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.userInfo !== this.state.userInfo) {
+            if (this.state.userInfo.length === 0) {
+                this.setState({ invalidLogin: true });
+            } else {
+                StaticData.setCurrentUser(this.state.userInfo);
+                this.setState({
+                    redirect: true,
+                    invalidLogin: false
+                });
+            }
         }
     }
 
     login(e) {
         e.preventDefault();
-        let username = document.getElementById("username").value;
-        let password = document.getElementById("password").value;
-        let allUsernames = StaticData.getAllUsernames();
-        if (allUsernames.includes(username)) {
-            if (password === StaticData.getPassword(username)) {
-                StaticData.setCurrentUser(username);
-                let userType = StaticData.getUserType(username);
-                this.setState({
-                    redirect: true,
-                    isAdmin: userType[0],
-                    isCustomer: userType[1],
-                    isManager: userType[2],
-                    invalidLogin: false
-                });
-            }
-        } else {
-            this.setState({ invalidLogin: true });
-        }
+        var url = new URL("http://" + window.location.host + "/api/user_login");
+        var params = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        };
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url)
+            .then(response => response.json());
+
+        fetch("/api/get_user_info")
+            .then(response => response.json())
+            .then(data => this.setState({ userInfo: data }));
     }
 
     logoutMsg() {
@@ -63,14 +69,7 @@ export default class Login extends Component {
 
     render() {
         if (this.state.redirect) {
-            return (<Redirect to={{
-                pathname: "/functionality",
-                state: {
-                    isAdmin: this.state.isAdmin,
-                    isCustomer: this.state.isCustomer,
-                    isManager: this.state.isManager
-                }
-            }} />);
+            return (<Redirect to="/functionality" />);
         }
 
         return (

@@ -9,13 +9,14 @@ export default class StaticData {
         "user": ["user", false, false, false, "Pending", "Jonathan", "Smith", []]
     };
     static currentUser;
+    //currentUser = [username, status, isCustomer, isAdmin, isManager]
 
     static getCurrentUser() {
         return this.currentUser;
     }
 
-    static setCurrentUser(username) {
-        this.currentUser = username;
+    static setCurrentUser(userInfo) {
+        this.currentUser = userInfo[0];
     }
 
     static getAllUsernames() {

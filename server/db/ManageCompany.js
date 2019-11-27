@@ -7,11 +7,11 @@ export const admin_filter_company = async (params) => {
             "CALL admin_filter_company(?,?,?,?,?,?,?,?,?)",
             [params.comName, params.minCity || undefined, params.maxCity || undefined, params.minTheater || undefined, params.maxTheater || undefined, params.minEmployee || undefined, params.maxEmployee || undefined, params.sortBy || undefined, params.sortDirection || undefined],
             (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(results);
-        });
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
     });
 }
 
@@ -20,11 +20,11 @@ export const get_filtered_companies = async () => {
         Connection.query(
             "SELECT * FROM AdFilterCom",
             (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(results);
-        });
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
     });
 }
 

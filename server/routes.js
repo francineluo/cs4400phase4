@@ -3,6 +3,27 @@ import DB from './db';
 
 const router = express.Router();
 
+//Screen 1: User login
+router.get('/api/user_login', async (req, res) => {
+    try {
+        let users = await DB.Login.user_login(req.query);
+        res.json(users);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_user_info', async (req, res) => {
+    try {
+        let users = await DB.Login.get_user_info(req.query);
+        res.json(users);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Screen 13: Admin filter user
 router.get('/api/admin_approve_user', async (req, res) => {
     try {

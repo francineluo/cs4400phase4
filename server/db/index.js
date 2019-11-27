@@ -2,8 +2,9 @@ import * as mysql from 'mysql';
 import config from '../config';
 
 //import queries
-import ManageCompany from './ManageCompany';
+import Login from './Login';
 import ManageUser from './ManageUser';
+import ManageCompany from './ManageCompany';
 
 export const Connection = mysql.createConnection(config.mysql);
 
@@ -13,6 +14,7 @@ Connection.connect(err => {
 });
 
 export default {
-    ManageCompany,
-    ManageUser
+    Login,
+    ManageUser,
+    ManageCompany
 }

@@ -10,12 +10,11 @@ export default class Functionality extends Component {
         if (typeof currentUser === "undefined") {
             this.state = { loggedIn: false };
         } else {
-            let userType = StaticData.getUserType(currentUser);
             this.state = {
                 loggedIn: true,
-                isAdmin: userType[0],
-                isCustomer: userType[1],
-                isManager: userType[2]
+                isCustomer: currentUser.isCustomer,
+                isAdmin: currentUser.isAdmin,
+                isManager: currentUser.isManager
             };
         }
     }
