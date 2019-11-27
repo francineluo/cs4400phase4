@@ -15,7 +15,6 @@ export default class CustomerRegistration extends Component {
             userInfo: [],
             creditCards: []
         }
-        this.getAllUsernames = this.getAllUsernames.bind(this);
         this.addCard = this.addCard.bind(this);
     }
 
@@ -59,14 +58,6 @@ export default class CustomerRegistration extends Component {
             return false;
         }
 
-        if (this.state.creditCards.length === 0) {
-            this.setState({
-                showMessage: true,
-                message: "You must have at least one credit card"
-            });
-            return false;
-        }
-
         let usernameArray = [];
         for (let i in this.state.allUsernames) {
             usernameArray.push(this.state.allUsernames[i].username);
@@ -87,6 +78,12 @@ export default class CustomerRegistration extends Component {
             this.setState({
                 showMessage: true,
                 message: "Confirm password does not match password"
+            });
+            return false;
+        } else if (this.state.creditCards.length === 0) {
+            this.setState({
+                showMessage: true,
+                message: "You must have at least one credit card"
             });
             return false;
         }
@@ -153,7 +150,7 @@ export default class CustomerRegistration extends Component {
         if (elements.length < 5) {
             elements.push(
                 <div className="card-info">
-                    <input type="number" name="newcard" id="newcard" />
+                    <input type="number" name="newcard" id="newcard" min="0" />
                     <div className="card-button" onClick={this.addCard}>Add</div>
                 </div>
             );
@@ -180,6 +177,12 @@ export default class CustomerRegistration extends Component {
             this.setState({
                 showMessage: true,
                 message: "Credit card number must be 16 digits"
+            });
+            return;
+        } else if (newCard.charAt(0) === "-") {
+            this.setState({
+                showMessage: true,
+                message: "Credit card number cannot be a negative number"
             });
             return;
         }

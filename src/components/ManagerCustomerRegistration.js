@@ -10,13 +10,47 @@ export default class ManagerCustomerRegistration extends Component {
             redirect: false,
             showMessage: false,
             message: "",
+            allUsernames: [],
+            allCreditCards: [],
+            allCompanies: [],
+            userInfo: [],
             creditCards: []
         }
         this.addCard = this.addCard.bind(this);
     }
 
-    register(e) {
-        e.preventDefault();
+    componentDidMount() {
+        this.getAllUsernames();
+        this.getAllCreditCards();
+        this.getAllCompanies();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.userInfo !== this.state.userInfo) {
+            StaticData.setCurrentUser(this.state.userInfo);
+            this.setState({ redirect: true });
+        }
+    }
+
+    getAllUsernames() {
+        fetch("/api/get_all_usernames")
+            .then(response => response.json())
+            .then(data => this.setState({ allUsernames: data }));
+    }
+
+    getAllCreditCards() {
+        fetch("/api/get_all_creditcards")
+            .then(response => response.json())
+            .then(data => this.setState({ allCreditCards: data }));
+    }
+
+    getAllCompanies() {
+        fetch("/api/get_all_companies")
+            .then(response => response.json())
+            .then(data => this.setState({ allCompanies: data }));
+    }
+
+    checkFields() {
         let fname = document.getElementById("fname").value;
         let lname = document.getElementById("lname").value;
         let username = document.getElementById("username").value;
@@ -35,41 +69,103 @@ export default class ManagerCustomerRegistration extends Component {
                 showMessage: true,
                 message: "Please fill out all fields"
             });
-            return;
+            return false;
         }
 
-        if (this.state.creditCards.length === 0) {
-            this.setState({
-                showMessage: true,
-                message: "You must have at least one credit card"
-            });
-            return;
+        let usernameArray = [];
+        for (let i in this.state.allUsernames) {
+            usernameArray.push(this.state.allUsernames[i].username);
         }
-
-        let allUsernames = StaticData.getAllUsernames();
-        if (allUsernames.includes(username)) {
+        if (usernameArray.includes(username)) {
             this.setState({
                 showMessage: true,
                 message: "Username is taken"
             });
-            return;
+            return false;
         } else if (pw.length < 8) {
             this.setState({
                 showMessage: true,
                 message: "Password must be at least 8 characters"
             });
-            return;
+            return false;
         } else if (pw !== confirmpw) {
             this.setState({
                 showMessage: true,
                 message: "Confirm password does not match password"
             });
-            return;
+            return false;
+        } else if (zip.length !== 5) {
+            this.setState({
+                showMessage: true,
+                message: "Zipcode must be 5 digits"
+            });
+            return false;
+        } else if (zip.charAt(0) === "-") {
+            this.setState({
+                showMessage: true,
+                message: "Zipcode cannot be negative number"
+            });
+            return false;
+        } else if (this.state.creditCards.length === 0) {
+            this.setState({
+                showMessage: true,
+                message: "You must have at least one credit card"
+            });
+            return false;
         }
         //TODO: check for unique address
+        return true;
+    }
 
-        StaticData.registerManagerCustomer(fname, lname, username, pw, this.state.creditCards);
-        this.setState({ redirect: true });
+    register(e) {
+        e.preventDefault();
+        if (this.checkFields()) {
+            //register
+            var url = new URL("http://" + window.location.host + "/api/manager_customer_register");
+            var params = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("pw").value,
+                fname: document.getElementById("fname").value,
+                lname: document.getElementById("lname").value,
+                comName: document.getElementById("company").value,
+                street: document.getElementById("street").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zip: document.getElementById("zip").value
+            };
+            url.search = new URLSearchParams(params).toString();
+
+            fetch(url)
+                .then(response => response.json());
+
+            //add cards
+            for (let i in this.state.creditCards) {
+                url = new URL("http://" + window.location.host + "/api/manager_customer_add_creditcard");
+                params = {
+                    username: document.getElementById("username").value,
+                    creditcard: this.state.creditCards[i]
+                };
+                url.search = new URLSearchParams(params).toString();
+
+                fetch(url)
+                    .then(response => response.json());
+            }
+
+            //login
+            url = new URL("http://" + window.location.host + "/api/user_login");
+            params = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("pw").value
+            };
+            url.search = new URLSearchParams(params).toString();
+
+            fetch(url)
+                .then(response => response.json());
+
+            fetch("/api/get_user_info")
+                .then(response => response.json())
+                .then(data => this.setState({ userInfo: data }));
+        }
     }
 
     creditCardNums() {
@@ -86,7 +182,7 @@ export default class ManagerCustomerRegistration extends Component {
         if (elements.length < 5) {
             elements.push(
                 <div className="card-info">
-                    <input type="text" name="newcard" id="newcard" />
+                    <input type="number" name="newcard" id="newcard" min="0"/>
                     <div className="card-button" onClick={this.addCard}>Add</div>
                 </div>
             );
@@ -109,17 +205,36 @@ export default class ManagerCustomerRegistration extends Component {
 
     addCard() {
         let newCard = document.getElementById("newcard").value;
-        //TODO: check for unique credit card among ALL user, not just current one
-        if (this.state.creditCards.includes(newCard)) {
+        if (newCard.length !== 16) {
+            this.setState({
+                showMessage: true,
+                message: "Credit card number must be 16 digits"
+            });
+            return;
+        } else if (newCard.charAt(0) === "-") {
+            this.setState({
+                showMessage: true,
+                message: "Credit card number cannot be a negative number"
+            });
+            return;
+        }
+
+        let cardArray = [];
+        for (let i in this.state.allCreditCards) {
+            cardArray.push(this.state.allCreditCards[i].creditCardNum);
+        }
+        if (cardArray.includes(newCard)) {
             this.setState({
                 showMessage: true,
                 message: "That credit card number is already being used"
             });
             return;
         }
+
         let updatedCards = this.state.creditCards;
         updatedCards.push(newCard);
         this.setState({
+            showMessage: false,
             creditCards: updatedCards
         });
     }
@@ -131,19 +246,81 @@ export default class ManagerCustomerRegistration extends Component {
     }
 
     companyDropdown() {
-        //TODO: retrieve company list
+        let elements = [];
+        for (let i in this.state.allCompanies) {
+            let company = this.state.allCompanies[i].comName;
+            elements.push(
+                <option key={company} value={company}>{company}</option>
+            );
+        }
+
         return (
             <select name="company" id="company">
-                <option value="AMC">AMC</option>
+                {elements}
             </select>
         );
     }
 
     stateDropdown() {
-        //TODO: retrieve state list
         return (
             <select name="state" id="state">
+                <option value="AK">AK</option>
+                <option value="AL">AL</option>
+                <option value="AR">AR</option>
+                <option value="AS">AS</option>
+                <option value="AZ">AZ</option>
+                <option value="CA">CA</option>
+                <option value="CO">CO</option>
+                <option value="CT">CT</option>
+                <option value="DC">DC</option>
+                <option value="DE">DE</option>
+                <option value="FL">FL</option>
                 <option value="GA">GA</option>
+                <option value="GU">GU</option>
+                <option value="HI">HI</option>
+                <option value="IA">IA</option>
+                <option value="ID">ID</option>
+                <option value="IL">IL</option>
+                <option value="IN">IN</option>
+                <option value="KS">KS</option>
+                <option value="KY">KY</option>
+                <option value="LA">LA</option>
+                <option value="MA">MA</option>
+                <option value="MD">MD</option>
+                <option value="ME">ME</option>
+                <option value="MI">MI</option>
+                <option value="MN">MN</option>
+                <option value="MO">MO</option>
+                <option value="MP">MP</option>
+                <option value="MS">MS</option>
+                <option value="MT">MT</option>
+                <option value="NC">NC</option>
+                <option value="ND">ND</option>
+                <option value="NE">NE</option>
+                <option value="NH">NH</option>
+                <option value="NJ">NJ</option>
+                <option value="NM">NM</option>
+                <option value="NV">NV</option>
+                <option value="NY">NY</option>
+                <option value="OH">OH</option>
+                <option value="OK">OK</option>
+                <option value="OR">OR</option>
+                <option value="PA">PA</option>
+                <option value="PR">PR</option>
+                <option value="RI">RI</option>
+                <option value="SC">SC</option>
+                <option value="SD">SD</option>
+                <option value="TN">TN</option>
+                <option value="TX">TX</option>
+                <option value="UM">UM</option>
+                <option value="UT">UT</option>
+                <option value="VA">VA</option>
+                <option value="VI">VI</option>
+                <option value="VT">VT</option>
+                <option value="WA">WA</option>
+                <option value="WI">WI</option>
+                <option value="WV">WV</option>
+                <option value="WY">WY</option>
             </select>
         );
     }
@@ -186,7 +363,7 @@ export default class ManagerCustomerRegistration extends Component {
                         State: {this.stateDropdown()}
                     </div>
                     <div className="input-field input-zip">
-                        Zipcode: <input type="text" name="zip" id="zip" />
+                        Zipcode: <input type="number" name="zip" id="zip" min="0" />
                     </div>
                     <div className="credit-card-nums">
                         Credit Card #

@@ -76,6 +76,39 @@ router.get('/api/get_all_creditcards', async (req, res) => {
     }
 });
 
+//Screen 5: Manager-Only register
+router.get('/api/manager_only_register', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.manager_only_register(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_all_companies', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.get_all_companies(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Screen 6: Manager-Customer register
+router.get('/api/manager_customer_register', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.manager_customer_register(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+
 //Screen 13: Admin filter user
 router.get('/api/admin_approve_user', async (req, res) => {
     try {
