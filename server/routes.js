@@ -24,10 +24,10 @@ router.get('/api/get_user_info', async (req, res) => {
     }
 });
 
-//Screen 3: User register
-router.get('/api/user_register', async (req, res) => {
+//Screen 3-6: General registration stuff
+router.get('/api/get_all_usernames', async (req, res) => {
     try {
-        let queryResult = await DB.Registration.user_register(req.query);
+        let queryResult = await DB.Registration.get_all_usernames(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -35,9 +35,30 @@ router.get('/api/user_register', async (req, res) => {
     }
 });
 
-router.get('/api/get_all_usernames', async (req, res) => {
+router.get('/api/get_all_creditcards', async (req, res) => {
     try {
-        let queryResult = await DB.Registration.get_all_usernames(req.query);
+        let queryResult = await DB.Registration.get_all_creditcards(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_all_companies', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.get_all_companies(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+//Screen 3: User register
+router.get('/api/user_register', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.user_register(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -66,16 +87,6 @@ router.get('/api/customer_add_creditcard', async (req, res) => {
     }
 });
 
-router.get('/api/get_all_creditcards', async (req, res) => {
-    try {
-        let queryResult = await DB.Registration.get_all_creditcards(req.query);
-        res.json(queryResult);
-    } catch (e) {
-        console.log(e);
-        res.sendStatus(500);
-    }
-});
-
 //Screen 5: Manager-Only register
 router.get('/api/manager_only_register', async (req, res) => {
     try {
@@ -87,9 +98,10 @@ router.get('/api/manager_only_register', async (req, res) => {
     }
 });
 
-router.get('/api/get_all_companies', async (req, res) => {
+//Screen 6: Manager-Customer register
+router.get('/api/manager_customer_register', async (req, res) => {
     try {
-        let queryResult = await DB.Registration.get_all_companies(req.query);
+        let queryResult = await DB.Registration.manager_customer_register(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -97,10 +109,9 @@ router.get('/api/get_all_companies', async (req, res) => {
     }
 });
 
-//Screen 6: Manager-Customer register
-router.get('/api/manager_customer_register', async (req, res) => {
+router.get('/api/manager_customer_add_creditcard', async (req, res) => {
     try {
-        let queryResult = await DB.Registration.manager_customer_register(req.query);
+        let queryResult = await DB.Registration.manager_customer_add_creditcard(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -171,5 +182,23 @@ router.get('/api/get_filtered_companies', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+//Screen 15: Admin create theater
+
+//Screen 16: Admin view company detail
+
+//Screen 17: Admin create movie
+
+//Screen 18: Manager filter theater
+
+//Screen 19: Manager schedule movie
+
+//Screen 20: Customer filter movie
+
+//Screen 21: Customer view history
+
+//Screen 22: User explore theater
+
+//Screen 23: User visit history
 
 export default router;
