@@ -184,6 +184,35 @@ router.get('/api/get_filtered_companies', async (req, res) => {
 });
 
 //Screen 15: Admin create theater
+router.get('/api/admin_create_theater', async (req, res) => {
+    try {
+        let queryResult = await DB.CreateTheater.admin_create_theater(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_company_theaters', async (req, res) => {
+    try {
+        let queryResult = await DB.CreateTheater.get_company_theaters(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_eligible_managers', async (req, res) => {
+    try {
+        let queryResult = await DB.CreateTheater.get_eligible_managers();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 
 //Screen 16: Admin view company detail
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import '../stylesheets/Main.css';
 import SortIcon from '../sort-solid.svg';
 import SortUpIcon from '../sort-up-solid.svg';
@@ -9,6 +9,10 @@ export default class ManageCompany extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            redirect: false,
+            selected: "",
+            showMessage: false,
+            message: "",
             companies: [],
             sortBy: "",
             sortDirection: "",
@@ -18,6 +22,7 @@ export default class ManageCompany extends Component {
             employeeSortIcon: SortIcon
         }
         this.filterCompanies = this.filterCompanies.bind(this);
+        this.createTheater = this.createTheater.bind(this);
         this.sort = this.sort.bind(this);
         this.companyList = this.companyList.bind(this);
     }
@@ -47,6 +52,22 @@ export default class ManageCompany extends Component {
         fetch("/api/get_filtered_companies")
             .then(response => response.json())
             .then(data => this.setState({ companies: data }));
+    }
+
+    createTheater() {
+        let radioButtons = document.getElementsByName("radio");
+        let selectedIndex = 0;
+        for (let i in radioButtons) {
+            if (radioButtons[i].checked) {
+                selectedIndex = i;
+                break;
+            }
+        }
+        let selectedCom = radioButtons[selectedIndex].value;
+        this.setState({
+            redirect: true,
+            selected: selectedCom
+        });
     }
 
     sort(e) {
@@ -109,18 +130,30 @@ export default class ManageCompany extends Component {
 
     companyList() {
         let elements = [];
-        for (let i in this.state.companies) {
+        for (let i = 0; i < this.state.companies.length; i++) {
             let company = this.state.companies[i];
             let companyName = company.comName;
-            elements.push(
-                <tr key={companyName}>
-                    <td><input type="radio" name="radio" value={companyName} /></td>
-                    <td>{companyName}</td>
-                    <td>{company.numCityCover}</td>
-                    <td>{company.numTheater}</td>
-                    <td>{company.numEmployee}</td>
-                </tr>
-            );
+            if (i === 0) {
+                elements.push(
+                    <tr key={companyName}>
+                        <td><input type="radio" name="radio" value={companyName} defaultChecked /></td>
+                        <td>{companyName}</td>
+                        <td>{company.numCityCover}</td>
+                        <td>{company.numTheater}</td>
+                        <td>{company.numEmployee}</td>
+                    </tr>
+                );
+            } else {
+                elements.push(
+                    <tr key={companyName}>
+                        <td><input type="radio" name="radio" value={companyName} /></td>
+                        <td>{companyName}</td>
+                        <td>{company.numCityCover}</td>
+                        <td>{company.numTheater}</td>
+                        <td>{company.numEmployee}</td>
+                    </tr>
+                );
+            }
         }
 
         if (elements.length === 0) {
@@ -143,10 +176,23 @@ export default class ManageCompany extends Component {
         );
     }
 
+    showMessage() {
+        if (this.state.showMessage) {
+            return (<p style={{ color: "red" }}>{this.state.message}</p>);
+        }
+    }
+
     render() {
+        if (this.state.redirect) {
+            return (<Redirect to={{
+                pathname: "/createtheater", company: this.state.selected
+            }} />);
+        }
+
         return (
             <div className="page-content">
                 <h1>Manage Company</h1>
+                {this.showMessage()}
                 <div className="vertical-list">
                     <div className="centered">
                         <div className="input-field">
@@ -164,7 +210,7 @@ export default class ManageCompany extends Component {
                     </div>
                     <div className="button-group">
                         <div className="button" onClick={this.filterCompanies} > Filter</div>
-                        <div className="button">Create Theater</div>
+                        <div className="button" onClick={this.createTheater}>Create Theater</div>
                         <div className="button">Detail</div>
                     </div>
                     {this.companyList()}

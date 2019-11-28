@@ -6,6 +6,7 @@ import Login from './Login';
 import Registration from './Registration';
 import ManageUser from './ManageUser';
 import ManageCompany from './ManageCompany';
+import CreateTheater from './CreateTheater';
 
 export const Connection = mysql.createConnection(config.mysql);
 
@@ -18,5 +19,6 @@ export default {
     Login,
     Registration,
     ManageUser,
-    ManageCompany
+    ManageCompany,
+    CreateTheater
 }
