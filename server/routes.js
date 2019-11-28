@@ -422,5 +422,24 @@ router.get('/api/get_all_theaters', async (req, res) => {
 });
 
 //Screen 23: User visit history
+router.get('/api/user_filter_visitHistory', async (req, res) => {
+    try {
+        let queryResult = await DB.VisitHistory.user_filter_visitHistory(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_user_visit_history', async (req, res) => {
+    try {
+        let queryResult = await DB.VisitHistory.get_user_visit_history(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 export default router;
