@@ -103,7 +103,7 @@ export default class ExploreMovie extends Component {
         } else {
             this.setState({
                 showMessage: true,
-                message: "There was a problem trying to create the movie",
+                message: "There was a problem trying to view the movie",
                 messageColor: "red"
             });
         }

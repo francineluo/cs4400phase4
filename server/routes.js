@@ -381,6 +381,45 @@ router.get('/api/get_customer_view_history', async (req, res) => {
 });
 
 //Screen 22: User explore theater
+router.get('/api/user_filter_th', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreTheater.user_filter_th(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/user_visit_th', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreTheater.user_visit_th(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/user_get_filtered_th', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreTheater.user_get_filtered_th();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_all_theaters', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreTheater.get_all_theaters();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 23: User visit history
 
