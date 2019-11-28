@@ -12,6 +12,7 @@ import CreateMovie from './CreateMovie';
 import TheaterOverview from './TheaterOverview';
 import ScheduleMovie from './ScheduleMovie';
 import ExploreMovie from './ExploreMovie';
+import ViewHistory from './ViewHistory';
 
 export const Connection = mysql.createConnection(config.mysql);
 
@@ -30,5 +31,6 @@ export default {
     CreateMovie,
     TheaterOverview,
     ScheduleMovie,
-    ExploreMovie
+    ExploreMovie,
+    ViewHistory
 }

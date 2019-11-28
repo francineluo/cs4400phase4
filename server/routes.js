@@ -360,6 +360,25 @@ router.get('/api/get_customer_filtered_mov', async (req, res) => {
 });
 
 //Screen 21: Customer view history
+router.get('/api/customer_view_history', async (req, res) => {
+    try {
+        let queryResult = await DB.ViewHistory.customer_view_history(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_customer_view_history', async (req, res) => {
+    try {
+        let queryResult = await DB.ViewHistory.get_customer_view_history();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 22: User explore theater
 

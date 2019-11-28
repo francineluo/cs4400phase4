@@ -74,6 +74,7 @@ export default class ExploreMovie extends Component {
     }
 
     viewMovie() {
+        //TODO: customer can only watch up to 3 movies per day
         let selectedMovie = this.getSelectedMovie();
         let movieInfo = selectedMovie.split(" --- ");
         var url = new URL("http://" + window.location.host + "/api/customer_view_mov");
