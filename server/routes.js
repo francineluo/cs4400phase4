@@ -319,6 +319,45 @@ router.get('/api/get_movie_release_date', async (req, res) => {
 });
 
 //Screen 20: Customer filter movie
+router.get('/api/customer_filter_mov', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreMovie.customer_filter_mov(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/customer_view_mov', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreMovie.customer_view_mov(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/customer_get_cards', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreMovie.customer_get_cards(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_customer_filtered_mov', async (req, res) => {
+    try {
+        let queryResult = await DB.ExploreMovie.get_customer_filtered_mov();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 21: Customer view history
 

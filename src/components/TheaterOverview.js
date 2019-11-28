@@ -62,7 +62,7 @@ export default class TheaterOverview extends Component {
                 movPlayDate = movPlayDate.substring(0, movPlayDate.indexOf("T"));
             }
             elements.push(
-                <tr key={movName}>
+                <tr key={movName + movPlayDate}>
                     <td>{movName}</td>
                     <td>{movie.movDuration}</td>
                     <td>{movReleaseDate}</td>
