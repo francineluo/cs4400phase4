@@ -29,7 +29,7 @@ import ViewHistory from './ViewHistory';
 import ExploreTheater from './ExploreTheater';
 import VisitHistory from './VisitHistory';
 //import PrivateRoute from './PrivateRoute';
-import StaticData from '../data/StaticData';
+//import StaticData from '../data/StaticData';
 
 function MasterRouter({ location }) {
     /*let currentUser = StaticData.getCurrentUser();

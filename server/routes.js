@@ -288,6 +288,35 @@ router.get('/api/get_filtered_movies', async (req, res) => {
 });
 
 //Screen 19: Manager schedule movie
+router.get('/api/manager_schedule_mov', async (req, res) => {
+    try {
+        let queryResult = await DB.ScheduleMovie.manager_schedule_mov(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_all_movies', async (req, res) => {
+    try {
+        let queryResult = await DB.ScheduleMovie.get_all_movies();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_movie_release_date', async (req, res) => {
+    try {
+        let queryResult = await DB.ScheduleMovie.get_movie_release_date(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 20: Customer filter movie
 
