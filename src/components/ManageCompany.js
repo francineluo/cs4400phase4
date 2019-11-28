@@ -10,6 +10,7 @@ export default class ManageCompany extends Component {
         super(props);
         this.state = {
             redirect: false,
+            redirectPath: "",
             selected: "",
             showMessage: false,
             message: "",
@@ -23,6 +24,7 @@ export default class ManageCompany extends Component {
         }
         this.filterCompanies = this.filterCompanies.bind(this);
         this.createTheater = this.createTheater.bind(this);
+        this.companyDetail = this.companyDetail.bind(this);
         this.sort = this.sort.bind(this);
         this.companyList = this.companyList.bind(this);
     }
@@ -55,6 +57,22 @@ export default class ManageCompany extends Component {
     }
 
     createTheater() {
+        this.setState({
+            redirect: true,
+            redirectPath: "/createtheater",
+            selected: this.getSelectedCompany()
+        });
+    }
+
+    companyDetail() {
+        this.setState({
+            redirect: true,
+            redirectPath: "/companydetail",
+            selected: this.getSelectedCompany()
+        });
+    }
+
+    getSelectedCompany() {
         let radioButtons = document.getElementsByName("radio");
         let selectedIndex = 0;
         for (let i in radioButtons) {
@@ -63,11 +81,7 @@ export default class ManageCompany extends Component {
                 break;
             }
         }
-        let selectedCom = radioButtons[selectedIndex].value;
-        this.setState({
-            redirect: true,
-            selected: selectedCom
-        });
+        return radioButtons[selectedIndex].value;
     }
 
     sort(e) {
@@ -185,7 +199,7 @@ export default class ManageCompany extends Component {
     render() {
         if (this.state.redirect) {
             return (<Redirect to={{
-                pathname: "/createtheater", company: this.state.selected
+                pathname: this.state.redirectPath, state: { company: this.state.selected }
             }} />);
         }
 
@@ -211,7 +225,7 @@ export default class ManageCompany extends Component {
                     <div className="button-group">
                         <div className="button" onClick={this.filterCompanies} > Filter</div>
                         <div className="button" onClick={this.createTheater}>Create Theater</div>
-                        <div className="button">Detail</div>
+                        <div className="button" onClick={this.companyDetail}>Detail</div>
                     </div>
                     {this.companyList()}
                     <div className="button-group">

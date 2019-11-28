@@ -17,7 +17,7 @@
 .page-content {
     text-align: center;
     margin: auto;
-    max-width: fit-content;
+    width: fit-content;
 }
 
 .button-group {
@@ -263,4 +263,9 @@ table, th, td {
     border: 1px solid black;
     padding: 8px;
     text-align: left;
+}
+
+.left-aligned {
+    display: flex;
+    justify-content: start;
 }

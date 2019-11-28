@@ -215,6 +215,46 @@ router.get('/api/get_eligible_managers', async (req, res) => {
 });
 
 //Screen 16: Admin view company detail
+router.get('/api/admin_view_comDetail_emp', async (req, res) => {
+    try {
+        let queryResult = await DB.CompanyDetail.admin_view_comDetail_emp(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/admin_view_comDetail_th', async (req, res) => {
+    try {
+        let queryResult = await DB.CompanyDetail.admin_view_comDetail_th(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_company_employees', async (req, res) => {
+    try {
+        let queryResult = await DB.CompanyDetail.get_company_employees();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.get('/api/get_comDetail_theaters', async (req, res) => {
+    console.log("boats");
+    try {
+        let queryResult = await DB.CompanyDetail.get_comDetail_theaters();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 
 //Screen 17: Admin create movie
 
