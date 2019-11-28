@@ -97,7 +97,7 @@ export default class CreateMovie extends Component {
             <div className="page-content">
                 <h1>Create Movie</h1>
                 {this.showMessage()}
-                <div classname="vertical-list">
+                <div className="vertical-list">
                     <div className="input-field">
                         Name: <input type="text" name="name" id="name" />
                     </div>

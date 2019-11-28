@@ -1,7 +1,6 @@
 import { Connection } from './index';
 
 export const admin_create_mov = async (params) => {
-    console.log(params);
     return new Promise((resolve, reject) => {
         Connection.query(
             "CALL admin_create_mov(?, ?, ?)",

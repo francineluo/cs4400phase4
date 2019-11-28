@@ -267,6 +267,25 @@ router.get('/api/admin_create_mov', async (req, res) => {
 });
 
 //Screen 18: Manager filter theater
+router.get('/api/manager_filter_th', async (req, res) => {
+    try {
+        let queryResult = await DB.TheaterOverview.manager_filter_th(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
+router.get('/api/get_filtered_movies', async (req, res) => {
+    try {
+        let queryResult = await DB.TheaterOverview.get_filtered_movies();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 19: Manager schedule movie
 
