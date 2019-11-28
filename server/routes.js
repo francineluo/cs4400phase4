@@ -246,7 +246,6 @@ router.get('/api/get_company_employees', async (req, res) => {
 });
 
 router.get('/api/get_comDetail_theaters', async (req, res) => {
-    console.log("boats");
     try {
         let queryResult = await DB.CompanyDetail.get_comDetail_theaters();
         res.json(queryResult);
@@ -257,6 +256,15 @@ router.get('/api/get_comDetail_theaters', async (req, res) => {
 });
 
 //Screen 17: Admin create movie
+router.get('/api/admin_create_mov', async (req, res) => {
+    try {
+        let queryResult = await DB.CreateMovie.admin_create_mov(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
 
 //Screen 18: Manager filter theater
 
