@@ -6,6 +6,18 @@ First, run `npm install` to install all dependencies.
 
 Run `npm run dev`. This should start the server on port 5000 and the client at http://localhost:3000.
 
+## Known Issues
+
+Occasionally, a query for retrieving data may return old/cached data.
+However, running the query again will return the new, correct data.
+The cause for this is unknown. This may affect app usage in the following ways:
+- When registering a new user, clicking register may return you to the login screen. In this case, simply log in with the credentials of the new account to proceed normally.
+- When filtering a table, you may have to click "Filter" twice in order for the table to be updated.
+- When logging in, the wrong user type may be loaded. Log out and log back in to get the correct functionality screen.
+
+It should also be noted that session data is not saved. So if you refresh the page,
+you will be logged out and must log in again to access any page besides login/registration.
+
 ## Credit
 
 SVG Icons were made by FontAwesome. The license can be found [here](https://fontawesome.com/license).
