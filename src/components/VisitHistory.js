@@ -64,7 +64,7 @@ export default class VisitHistory extends Component {
             .then(response => response.json())
             .then(data => {
                 this.verifyData(data);
-                this.setState({ visitHistory: data });
+                this.setState({ visitHistory: data }, this.showVisitHistory);
             });
     }
 
@@ -95,8 +95,9 @@ export default class VisitHistory extends Component {
             if (this.state.selectedCompany === "ALL" || visit.comName === this.state.selectedCompany) {
                 let address = visit.thStreet.concat(", ", visit.thCity, ", ", visit.thState, " ", visit.thZipcode);
                 let visitDate = visit.visitDate.substring(0, visit.visitDate.indexOf("T"));
+                let key = visit.thName + visit.comName + visitDate + Math.random();
                 elements.push(
-                    <tr key={visit.thName + visit.comName + visitDate}>
+                    <tr key={key}>
                         <td>{visit.thName}</td>
                         <td>{address}</td>
                         <td>{visit.comName}</td>
