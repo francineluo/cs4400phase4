@@ -50,7 +50,14 @@ export default class ManageUser extends Component {
         fetch(url)
             .then(response => response.json());
 
-        fetch("/api/get_filtered_users")
+        url = new URL("http://" + window.location.host + "/api/get_filtered_users");
+        params = {
+            sortBy: this.state.sortBy,
+            sortDirection: this.state.sortDirection
+        };
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url)
             .then(response => response.json())
             .then(data => this.setState({ users: data }));
     }
@@ -176,8 +183,7 @@ export default class ManageUser extends Component {
         this.setState({
             sortBy: sortBy,
             sortDirection: sortDir
-        });
-        this.filterUsers();
+        }, this.filterUsers);
     }
 
     userList() {

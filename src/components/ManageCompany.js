@@ -51,7 +51,14 @@ export default class ManageCompany extends Component {
         fetch(url)
             .then(response => response.json());
 
-        fetch("/api/get_filtered_companies")
+        url = new URL("http://" + window.location.host + "/api/get_filtered_companies");
+        params = {
+            sortBy: this.state.sortBy,
+            sortDirection: this.state.sortDirection
+        };
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url)
             .then(response => response.json())
             .then(data => this.setState({ companies: data }));
     }
@@ -138,8 +145,7 @@ export default class ManageCompany extends Component {
         this.setState({
             sortBy: sortBy,
             sortDirection: sortDir
-        });
-        this.filterCompanies();
+        }, this.filterCompanies);
     }
 
     companyList() {

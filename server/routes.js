@@ -153,7 +153,7 @@ router.get('/api/admin_filter_user', async (req, res) => {
 
 router.get('/api/get_filtered_users', async (req, res) => {
     try {
-        let queryResult = await DB.ManageUser.get_filtered_users();
+        let queryResult = await DB.ManageUser.get_filtered_users(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -175,7 +175,7 @@ router.get('/api/admin_filter_company', async (req, res) => {
 
 router.get('/api/get_filtered_companies', async (req, res) => {
     try {
-        let queryResult = await DB.ManageCompany.get_filtered_companies();
+        let queryResult = await DB.ManageCompany.get_filtered_companies(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);

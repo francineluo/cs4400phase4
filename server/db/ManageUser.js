@@ -42,10 +42,17 @@ export const admin_filter_user = async (params) => {
     });
 }
 
-export const get_filtered_users = async () => {
+export const get_filtered_users = async (params) => {
     return new Promise((resolve, reject) => {
+        let query = "SELECT * FROM AdFilterUser";
+        if (params.sortBy !== "") {
+            query = query.concat(" ORDER BY " + params.sortBy);
+        }
+        if (params.sortDirection !== "") {
+            query = query.concat(" " + params.sortDirection);
+        }
         Connection.query(
-            "SELECT * FROM AdFilterUser",
+            query,
             (err, results) => {
                 if (err) {
                     return reject(err);

@@ -1,6 +1,5 @@
 import { Connection } from './index';
 
-//TODO: ORDER BY is not working
 export const admin_filter_company = async (params) => {
     return new Promise((resolve, reject) => {
         Connection.query(
@@ -15,10 +14,17 @@ export const admin_filter_company = async (params) => {
     });
 }
 
-export const get_filtered_companies = async () => {
+export const get_filtered_companies = async (params) => {
     return new Promise((resolve, reject) => {
+        let query = "SELECT * FROM AdFilterCom";
+        if (params.sortBy !== "") {
+            query = query.concat(" ORDER BY " + params.sortBy);
+        }
+        if (params.sortDirection !== "") {
+            query = query.concat(" " + params.sortDirection);
+        }
         Connection.query(
-            "SELECT * FROM AdFilterCom",
+            query,
             (err, results) => {
                 if (err) {
                     return reject(err);
