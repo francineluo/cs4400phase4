@@ -12,6 +12,7 @@ export default class TheaterOverview extends Component {
             showMessage: false,
             message: "",
             movies: [],
+            managerTheater: [],
             currentUser: StaticData.getCurrentUser()
         }
         this.filterMovies = this.filterMovies.bind(this);
@@ -23,8 +24,28 @@ export default class TheaterOverview extends Component {
                 loggedOut: true
             });
         } else {
+            this.getManagerTheater();
             this.filterMovies();
         }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.managerTheater !== this.state.managerTheater) {
+            if (this.state.managerTheater.length === 0) {
+                this.setState({
+                    showMessage: true,
+                    message: "You are not currently assigned to a theater, so there is nothing to see."
+                });
+            } else {
+                this.setState({ showMessage: false });
+            }
+        }
+    }
+
+    getManagerTheater() {
+        fetch("/api/get_manager_theater?manager=" + this.state.currentUser.username)
+            .then(response => response.json())
+            .then(data => this.setState({ managerTheater: data }));
     }
 
     filterMovies() {
@@ -52,27 +73,29 @@ export default class TheaterOverview extends Component {
 
     movieList() {
         let elements = [];
-        for (let i = 0; i < this.state.movies.length; i++) {
-            let movie = this.state.movies[i];
-            let movName = movie.movName;
-            let movReleaseDate = movie.movReleaseDate;
-            movReleaseDate = movReleaseDate.substring(0, movReleaseDate.indexOf("T"));
-            let movPlayDate = movie.movPlayDate;
-            if (movPlayDate !== null) {
-                movPlayDate = movPlayDate.substring(0, movPlayDate.indexOf("T"));
+        if (this.state.managerTheater.length !== 0) {
+            for (let i = 0; i < this.state.movies.length; i++) {
+                let movie = this.state.movies[i];
+                let movName = movie.movName;
+                let movReleaseDate = movie.movReleaseDate;
+                movReleaseDate = movReleaseDate.substring(0, movReleaseDate.indexOf("T"));
+                let movPlayDate = movie.movPlayDate;
+                if (movPlayDate !== null) {
+                    movPlayDate = movPlayDate.substring(0, movPlayDate.indexOf("T"));
+                }
+                elements.push(
+                    <tr key={movName + movPlayDate}>
+                        <td>{movName}</td>
+                        <td>{movie.movDuration}</td>
+                        <td>{movReleaseDate}</td>
+                        <td>{movPlayDate}</td>
+                    </tr>
+                );
             }
-            elements.push(
-                <tr key={movName + movPlayDate}>
-                    <td>{movName}</td>
-                    <td>{movie.movDuration}</td>
-                    <td>{movReleaseDate}</td>
-                    <td>{movPlayDate}</td>
-                </tr>
-            );
-        }
 
-        if (elements.length === 0) {
-            return (<p>No movies found. Try changing the filters.</p>);
+            if (elements.length === 0) {
+                return (<p>No movies found. Try changing the filters.</p>);
+            }
         }
 
         return (
@@ -90,6 +113,12 @@ export default class TheaterOverview extends Component {
         );
     }
 
+    showMessage() {
+        if (this.state.showMessage) {
+            return (<p style={{ color: "red" }}>{this.state.message}</p>);
+        }
+    }
+
     render() {
         if (this.state.loggedOut) {
             return (<Redirect to={{
@@ -101,6 +130,7 @@ export default class TheaterOverview extends Component {
         return (
             <div className="page-content">
                 <h1>Theater Overview</h1>
+                {this.showMessage()}
                 <div className="vertical-list">
                     <div className="input-field">
                         Movie Name: <input type="text" name="name" id="name" />

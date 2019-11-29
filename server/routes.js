@@ -318,6 +318,16 @@ router.get('/api/get_movie_release_date', async (req, res) => {
     }
 });
 
+router.get('/api/get_manager_theater', async (req, res) => {
+    try {
+        let queryResult = await DB.ScheduleMovie.get_manager_theater(req.query);
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.send({ error: e.code });
+    }
+});
+
 //Screen 20: Customer filter movie
 router.get('/api/customer_filter_mov', async (req, res) => {
     try {

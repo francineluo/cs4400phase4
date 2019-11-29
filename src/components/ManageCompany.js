@@ -208,7 +208,7 @@ export default class ManageCompany extends Component {
                 <h1>Manage Company</h1>
                 {this.showMessage()}
                 <div className="vertical-list">
-                    <div className="centered">
+                    <div className="centered vertical-list">
                         <div className="input-field">
                             Name: <input type="text" name="name" id="name" />
                         </div>

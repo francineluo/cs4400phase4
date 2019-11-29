@@ -41,8 +41,23 @@ export const get_movie_release_date = async (params) => {
     });
 }
 
+export const get_manager_theater = async (params) => {
+    return new Promise((resolve, reject) => {
+        Connection.query(
+            "SELECT * FROM Theater WHERE manUsername = ?",
+            [params.manager],
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+    });
+}
+
 export default {
     manager_schedule_mov,
     get_all_movies,
-    get_movie_release_date
+    get_movie_release_date,
+    get_manager_theater
 }

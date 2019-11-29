@@ -12,6 +12,7 @@ export default class ScheduleMovie extends Component {
             showMessage: false,
             message: "",
             messageColor: "red",
+            managerTheater: [],
             allMovies: [],
             movieReleaseDate: "",
             response: null,
@@ -28,14 +29,32 @@ export default class ScheduleMovie extends Component {
                 loggedOut: true
             });
         } else {
+            this.getManagerTheater();
             this.getAllMovies();
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
+        if (prevState.managerTheater !== this.state.managerTheater) {
+            if (this.state.managerTheater.length === 0) {
+                this.setState({
+                    showMessage: true,
+                    message: "You are not currently assigned to a theater, so you cannot schedule movies.",
+                    messageColor: "red"
+                });
+            } else {
+                this.setState({ showMessage: false });
+            }
+        }
         if (prevState.allMovies !== this.state.allMovies) {
             this.setMovieReleaseDate();
         }
+    }
+
+    getManagerTheater() {
+        fetch("/api/get_manager_theater?manager=" + this.state.currentUser.username)
+            .then(response => response.json())
+            .then(data => this.setState({ managerTheater: data }));
     }
 
     getAllMovies() {
@@ -73,7 +92,7 @@ export default class ScheduleMovie extends Component {
     }
 
     scheduleMovie() {
-        if (this.checkFields()) {
+        if (this.state.managerTheater.length !== 0 && this.checkFields()) {
             var url = new URL("http://" + window.location.host + "/api/manager_schedule_mov");
             var params = {
                 manager: this.state.currentUser.username,
