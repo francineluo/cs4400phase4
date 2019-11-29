@@ -6,7 +6,6 @@ export default class CreateTheater extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mounted: false,
             redirect: false,
             showMessage: false,
             message: "",
@@ -14,23 +13,22 @@ export default class CreateTheater extends Component {
             eligibleManagers: [],
             companyTheaters: []
         }
+        this.getEligibleManagers = this.getEligibleManagers.bind(this);
         this.getCompanyTheaters = this.getCompanyTheaters.bind(this);
         this.createTheater = this.createTheater.bind(this);
     }
 
     componentDidMount() {
-        this.setState({ mounted: true });
         this.getAllCompanies();
         this.getEligibleManagers();
-    }
-
-    componentWillUnmount() {
-        this.setState({ mounted: false });
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.companyTheaters !== this.state.companyTheaters) {
             this.createTheater();
+        }
+        if (prevState.allCompanies !== this.state.allCompanies) {
+            this.getEligibleManagers();
         }
     }
 
@@ -41,7 +39,8 @@ export default class CreateTheater extends Component {
     }
 
     getEligibleManagers() {
-        fetch("/api/get_eligible_managers")
+        let company = document.getElementById("company").value;
+        fetch("/api/get_eligible_managers?company=" + company)
             .then(response => response.json())
             .then(data => this.setState({ eligibleManagers: data }));
     }
@@ -69,6 +68,14 @@ export default class CreateTheater extends Component {
             this.setState({
                 showMessage: true,
                 message: "Please fill out all fields"
+            });
+            return false;
+        }
+
+        if (manager === "N/A") {
+            this.setState({
+                showMessage: true,
+                message: "Theater must have a manager"
             });
             return false;
         }
@@ -137,7 +144,7 @@ export default class CreateTheater extends Component {
         }
 
         return (
-            <select name="company" id="company" >
+            <select name="company" id="company" onChange={this.getEligibleManagers} >
                 {elements}
             </select>
         );
@@ -149,6 +156,12 @@ export default class CreateTheater extends Component {
             let manager = this.state.eligibleManagers[i].username;
             elements.push(
                 <option key={manager} value={manager}>{manager}</option>
+            );
+        }
+
+        if (elements.length === 0) {
+            elements.push(
+                <option key="N/A" value="N/A">N/A</option>
             );
         }
 

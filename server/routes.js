@@ -206,7 +206,7 @@ router.get('/api/get_company_theaters', async (req, res) => {
 
 router.get('/api/get_eligible_managers', async (req, res) => {
     try {
-        let queryResult = await DB.CreateTheater.get_eligible_managers();
+        let queryResult = await DB.CreateTheater.get_eligible_managers(req.query);
         res.json(queryResult);
     } catch (e) {
         console.log(e);
@@ -434,7 +434,7 @@ router.get('/api/user_filter_visitHistory', async (req, res) => {
 
 router.get('/api/get_user_visit_history', async (req, res) => {
     try {
-        let queryResult = await DB.VisitHistory.get_user_visit_history(req.query);
+        let queryResult = await DB.VisitHistory.get_user_visit_history();
         res.json(queryResult);
     } catch (e) {
         console.log(e);

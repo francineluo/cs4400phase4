@@ -140,7 +140,7 @@ export default class CustomerRegistration extends Component {
         let elements = [];
         for (let i in this.state.creditCards) {
             elements.push(
-                <div className="card-info">
+                <div key={i} className="card-info">
                     {this.state.creditCards[i]}
                     <div className="card-button" name="remove" onClick={e => this.removeCard(i)}>Remove</div>
                 </div>
@@ -149,7 +149,7 @@ export default class CustomerRegistration extends Component {
 
         if (elements.length < 5) {
             elements.push(
-                <div className="card-info">
+                <div key="add" className="card-info">
                     <input type="number" name="newcard" id="newcard" min="0" />
                     <div className="card-button" onClick={this.addCard}>Add</div>
                 </div>
@@ -191,7 +191,7 @@ export default class CustomerRegistration extends Component {
         for (let i in this.state.allCreditCards) {
             cardArray.push(this.state.allCreditCards[i].creditCardNum);
         }
-        if (cardArray.includes(newCard)) {
+        if (cardArray.includes(newCard) || this.state.creditCards.includes(newCard)) {
             this.setState({
                 showMessage: true,
                 message: "That credit card number is already being used"

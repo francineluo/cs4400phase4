@@ -5,7 +5,6 @@ import '../stylesheets/Main.css';
 export default class CompanyDetail extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             company: this.props.location.state.company,
             employees: [],

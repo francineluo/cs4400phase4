@@ -14,11 +14,10 @@ export const user_filter_visitHistory = async (params) => {
     });
 }
 
-export const get_user_visit_history = async (params) => {
+export const get_user_visit_history = async () => {
     return new Promise((resolve, reject) => {
         Connection.query(
-            "SELECT * FROM UserVisitTheater WHERE username = ?",
-            [params.username],
+            "SELECT * FROM UserVisitHistory",
             (err, results) => {
                 if (err) {
                     return reject(err);

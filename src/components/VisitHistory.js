@@ -12,10 +12,13 @@ export default class VisitHistory extends Component {
             message: "",
             visitHistory: [],
             allCompanies: [],
+            selectedCompany: "",
+            filterCompany: false,
             currentUser: StaticData.getCurrentUser()
         }
         this.filterVisitHistory = this.filterVisitHistory.bind(this);
         this.verifyData = this.verifyData.bind(this);
+        this.changeSelectedCompany = this.changeSelectedCompany.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +32,12 @@ export default class VisitHistory extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.allCompanies !== this.state.allCompanies) {
+            this.changeSelectedCompany();
+        }
+    }
+
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
@@ -37,6 +46,7 @@ export default class VisitHistory extends Component {
 
     filterVisitHistory() {
         this.setState({ showMessage: false });
+        this.changeSelectedCompany();
 
         var url = new URL("http://" + window.location.host + "/api/user_filter_visitHistory");
         var params = {
@@ -50,9 +60,12 @@ export default class VisitHistory extends Component {
             .then(response => response.json())
             .then(data => this.verifyData(data));
 
-        fetch("/api/get_user_visit_history?username=" + this.state.currentUser.username)
+        fetch("/api/get_user_visit_history")
             .then(response => response.json())
-            .then(data => this.verifyData(data));
+            .then(data => {
+                this.verifyData(data);
+                this.setState({ visitHistory: data });
+            });
     }
 
     verifyData(data) {
@@ -63,6 +76,8 @@ export default class VisitHistory extends Component {
                     message: "Invalid visit date",
                     messageColor: "red"
                 });
+            } else if (data.error === "ER_NO_SUCH_TABLE") {
+                return;
             } else {
                 this.setState({
                     showMessage: true,
@@ -77,15 +92,18 @@ export default class VisitHistory extends Component {
         let elements = [];
         for (let i = 0; i < this.state.visitHistory.length; i++) {
             let visit = this.state.visitHistory[i];
-            let address = visit.thStreet.concat(", ", visit.thCity, ", ", visit.thState, " ", visit.thZipcode);
-            elements.push(
-                <tr key={visit.thName + visit.comName + visit.visitDate}>
-                    <td>{visit.thName}</td>
-                    <td>{address}</td>
-                    <td>{visit.comName}</td>
-                    <td>{visit.visitDate}</td>
-                </tr>
-            );
+            if (this.state.selectedCompany === "ALL" || visit.comName === this.state.selectedCompany) {
+                let address = visit.thStreet.concat(", ", visit.thCity, ", ", visit.thState, " ", visit.thZipcode);
+                let visitDate = visit.visitDate.substring(0, visit.visitDate.indexOf("T"));
+                elements.push(
+                    <tr key={visit.thName + visit.comName + visitDate}>
+                        <td>{visit.thName}</td>
+                        <td>{address}</td>
+                        <td>{visit.comName}</td>
+                        <td>{visitDate}</td>
+                    </tr>
+                );
+            }
         }
 
         if (elements.length === 0) {
@@ -105,6 +123,11 @@ export default class VisitHistory extends Component {
                 </tbody>
             </table>
         );
+    }
+
+    changeSelectedCompany() {
+        let company = document.getElementById("company").value;
+        this.setState({ selectedCompany: company });
     }
 
     companyDropdown() {

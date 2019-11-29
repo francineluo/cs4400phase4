@@ -4,9 +4,7 @@ Clone this repository onto your machine. In your terminal, navigate to the root 
 
 First, run `npm install` to install all dependencies.
 
-Run `npm run server` to start the server. It should begin listening on port 5000.
-
-Open another terminal, navigate to the root directory, and run `npm start` to launch the web app. It should be live at http://localhost:3000.
+Run `npm run dev`. This should start the server on port 5000 and the client at http://localhost:3000.
 
 ## Credit
 

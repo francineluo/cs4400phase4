@@ -28,11 +28,13 @@ export const get_company_theaters = async (params) => {
     });
 }
 
-export const get_eligible_managers = async () => {
+export const get_eligible_managers = async (params) => {
     return new Promise((resolve, reject) => {
         Connection.query(
-            "SELECT username FROM Manager WHERE Manager.username NOT IN"
-          + "(SELECT DISTINCT username FROM Manager INNER JOIN Theater ON Manager.username = Theater.manUsername)",
+            "SELECT username FROM Manager WHERE username NOT IN "
+            + "(SELECT DISTINCT username FROM Manager INNER JOIN Theater ON Manager.username = Theater.manUsername) "
+            + "AND comName = ?",
+            [params.company],
             (err, results) => {
                 if (err) {
                     return reject(err);

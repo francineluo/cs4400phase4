@@ -44,7 +44,7 @@ export const user_get_filtered_th = async (params) => {
 export const get_all_theaters = async (params) => {
     return new Promise((resolve, reject) => {
         Connection.query(
-            "SELECT thName FROM Theater",
+            "SELECT DISTINCT thName FROM Theater",
             (err, results) => {
                 if (err) {
                     return reject(err);

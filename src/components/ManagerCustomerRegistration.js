@@ -223,7 +223,7 @@ export default class ManagerCustomerRegistration extends Component {
         for (let i in this.state.allCreditCards) {
             cardArray.push(this.state.allCreditCards[i].creditCardNum);
         }
-        if (cardArray.includes(newCard)) {
+        if (cardArray.includes(newCard) || this.state.creditCards.includes(newCard)) {
             this.setState({
                 showMessage: true,
                 message: "That credit card number is already being used"

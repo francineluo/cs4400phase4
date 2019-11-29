@@ -25,11 +25,28 @@ export default class ViewHistory extends Component {
 
     getViewHistory() {
         fetch("/api/customer_view_history?username=" + this.state.currentUser.username)
-            .then(response => response.json());
+            .then(response => response.json())
+            .then(data => this.verifyData(data));
 
         fetch("/api/get_customer_view_history")
             .then(response => response.json())
-            .then(data => this.setState({ viewHistory: data }));
+            .then(data => {
+                if (this.verifyData(data)) {
+                    this.setState({ viewHistory: data });
+                }
+            });
+    }
+
+    verifyData(data) {
+        if (typeof data.error !== "undefined") {
+            this.setState({
+                showMessage: true,
+                message: "There was a problem trying to retrieve data",
+                messageColor: "red"
+            });
+            return false;
+        }
+        return true;
     }
 
     showViewHistory() {

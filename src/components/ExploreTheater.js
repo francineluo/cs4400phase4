@@ -168,7 +168,7 @@ export default class ExploreTheater extends Component {
         for (let i in this.state.allTheaters) {
             let theater = this.state.allTheaters[i].thName;
             elements.push(
-                <option key={theater} value={theater}>{theater}</option>
+                <option key={theater + i} value={theater}>{theater}</option>
             );
         }
 

@@ -29,6 +29,7 @@ export default class Login extends Component {
             if (this.state.userInfo.length === 0) {
                 this.setState({ redirectFromLogout: false, invalidLogin: true });
             } else {
+                StaticData.setCurrentUser(this.state.userInfo);
                 this.setState({
                     redirectFromLogout: false,
                     redirect: true,

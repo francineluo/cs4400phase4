@@ -100,6 +100,12 @@ export default class ExploreMovie extends Component {
                 message: "Movie was successfully viewed",
                 messageColor: "green"
             });
+        } else if (data.error === "ER_DUP_ENTRY") {
+            this.setState({
+                showMessage: true,
+                message: "You've already seen that movie",
+                messageColor: "red"
+            });
         } else {
             this.setState({
                 showMessage: true,
@@ -159,7 +165,7 @@ export default class ExploreMovie extends Component {
         }
 
         if (elements.length === 0) {
-            return (<p>No movies found. Try changing the filters.</p>);
+            return (<p>No viewings found. Try changing the filters.</p>);
         }
 
         return (

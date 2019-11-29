@@ -2,10 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\public",
+    "\\server",
+    "\\server\\config",
+    "\\server\\db",
     "\\src",
     "\\src\\components",
+    "\\src\\data",
     "\\src\\stylesheets"
   ],
-  "SelectedNode": "\\src\\components\\RegisterNav.js",
+  "SelectedNode": "\\src\\components\\VisitHistory.js",
   "PreviewInSolutionExplorer": false
 }
