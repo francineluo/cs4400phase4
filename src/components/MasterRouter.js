@@ -28,14 +28,8 @@ import ExploreMovie from './ExploreMovie';
 import ViewHistory from './ViewHistory';
 import ExploreTheater from './ExploreTheater';
 import VisitHistory from './VisitHistory';
-//import PrivateRoute from './PrivateRoute';
-//import StaticData from '../data/StaticData';
 
 function MasterRouter({ location }) {
-    /*let currentUser = StaticData.getCurrentUser();
-    let loggedIn = typeof currentUser !== "undefined";*/
-    //TODO: redirect if not logged in
-    
     return (
         <TransitionGroup>
             <CSSTransition

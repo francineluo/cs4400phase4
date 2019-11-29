@@ -37,7 +37,7 @@ export default class ViewHistory extends Component {
         for (let i = 0; i < this.state.viewHistory.length; i++) {
             let view = this.state.viewHistory[i];
             elements.push(
-                <tr key={view}>
+                <tr key={view.movName + view.creditCardNum + view.movPlayDate}>
                     <td>{view.movName}</td>
                     <td>{view.thName}</td>
                     <td>{view.comName}</td>

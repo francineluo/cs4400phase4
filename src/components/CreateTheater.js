@@ -165,7 +165,6 @@ export default class CreateTheater extends Component {
                 <option value="AK">AK</option>
                 <option value="AL">AL</option>
                 <option value="AR">AR</option>
-                <option value="AS">AS</option>
                 <option value="AZ">AZ</option>
                 <option value="CA">CA</option>
                 <option value="CO">CO</option>
@@ -174,7 +173,6 @@ export default class CreateTheater extends Component {
                 <option value="DE">DE</option>
                 <option value="FL">FL</option>
                 <option value="GA">GA</option>
-                <option value="GU">GU</option>
                 <option value="HI">HI</option>
                 <option value="IA">IA</option>
                 <option value="ID">ID</option>
@@ -189,7 +187,6 @@ export default class CreateTheater extends Component {
                 <option value="MI">MI</option>
                 <option value="MN">MN</option>
                 <option value="MO">MO</option>
-                <option value="MP">MP</option>
                 <option value="MS">MS</option>
                 <option value="MT">MT</option>
                 <option value="NC">NC</option>
@@ -204,16 +201,13 @@ export default class CreateTheater extends Component {
                 <option value="OK">OK</option>
                 <option value="OR">OR</option>
                 <option value="PA">PA</option>
-                <option value="PR">PR</option>
                 <option value="RI">RI</option>
                 <option value="SC">SC</option>
                 <option value="SD">SD</option>
                 <option value="TN">TN</option>
                 <option value="TX">TX</option>
-                <option value="UM">UM</option>
                 <option value="UT">UT</option>
                 <option value="VA">VA</option>
-                <option value="VI">VI</option>
                 <option value="VT">VT</option>
                 <option value="WA">WA</option>
                 <option value="WI">WI</option>

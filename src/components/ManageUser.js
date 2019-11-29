@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import '../stylesheets/Main.css';
+import StaticData from '../data/StaticData';
 import SortIcon from '../sort-solid.svg';
 import SortUpIcon from '../sort-up-solid.svg';
 import SortDownIcon from '../sort-down-solid.svg';
@@ -9,6 +10,7 @@ export default class ManageUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentUser: StaticData.getCurrentUser(),
             users: [],
             sortBy: "",
             sortDirection: "",
@@ -26,7 +28,13 @@ export default class ManageUser extends Component {
     }
 
     componentDidMount() {
-        this.filterUsers();
+        if (typeof this.state.currentUser === "undefined") {
+            this.setState({
+                loggedOut: true
+            });
+        } else {
+            this.filterUsers();
+        }
     }
 
     filterUsers() {
@@ -209,6 +217,13 @@ export default class ManageUser extends Component {
     }
 
     render() {
+        if (this.state.loggedOut) {
+            return (<Redirect to={{
+                pathname: "/login",
+                state: { loggedOut: true }
+            }} />);
+        }
+
         return (
             <div className="page-content">
                 <h1>Manage User</h1>

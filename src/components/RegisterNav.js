@@ -11,7 +11,7 @@ export default class RegisterNav extends Component {
                     <Link to="/userregistration" className="button">User Only</Link>
                     <Link to="/customerregistration" className="button">Customer Only</Link>
                     <Link to="/managerregistration" className="button">Manager Only</Link>
-                    <Link to="/managercustomerregistration" className="button">Manager-Customer Only</Link>
+                    <Link to="/managercustomerregistration" className="button">Manager-Customer</Link>
                     <Link to="/login" className="button">Back</Link>
                 </div>
             </div>

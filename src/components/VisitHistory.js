@@ -79,7 +79,7 @@ export default class VisitHistory extends Component {
             let visit = this.state.visitHistory[i];
             let address = visit.thStreet.concat(", ", visit.thCity, ", ", visit.thState, " ", visit.thZipcode);
             elements.push(
-                <tr key={visit}>
+                <tr key={visit.thName + visit.comName + visit.visitDate}>
                     <td>{visit.thName}</td>
                     <td>{address}</td>
                     <td>{visit.comName}</td>

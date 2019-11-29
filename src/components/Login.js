@@ -27,10 +27,10 @@ export default class Login extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.userInfo !== this.state.userInfo) {
             if (this.state.userInfo.length === 0) {
-                this.setState({ invalidLogin: true });
+                this.setState({ redirectFromLogout: false, invalidLogin: true });
             } else {
-                StaticData.setCurrentUser(this.state.userInfo);
                 this.setState({
+                    redirectFromLogout: false,
                     redirect: true,
                     invalidLogin: false
                 });
@@ -48,11 +48,13 @@ export default class Login extends Component {
         url.search = new URLSearchParams(params).toString();
 
         fetch(url)
-            .then(response => response.json());
-
-        fetch("/api/get_user_info")
             .then(response => response.json())
-            .then(data => this.setState({ userInfo: data }));
+            .then(fetch("/api/get_user_info")
+            .then(response => response.json())
+            .then(data => {
+                StaticData.setCurrentUser(data);
+                this.setState({ userInfo: data });
+            }));
     }
 
     logoutMsg() {
@@ -79,10 +81,10 @@ export default class Login extends Component {
                 {this.invalidLogin()}
                 <form className="vertical-list">
                     <div className="input-field">
-                        Username: <input type="text" name="username" id="username"/>
+                        Username: <input type="text" name="username" id="username" />
                     </div>
                     <div className="input-field">
-                        Password: <input type="text" name="password" id="password"/>
+                        Password: <input type="password" name="password" id="password" />
                     </div>
                     <div className="button-group">
                         <input className="button" type="submit" value="Login" onClick={e => this.login(e)} />

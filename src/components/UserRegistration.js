@@ -134,10 +134,10 @@ export default class UserRegistration extends Component {
                         Username: <input type="text" name="username" id="username" />
                     </div>
                     <div className="input-field input-pw">
-                        Password: <input type="text" name="pw" id="pw" />
+                        Password: <input type="password" name="pw" id="pw" />
                     </div>
                     <div className="input-field input-confirmpw">
-                        Confirm Password: <input type="text" name="confirmpw" id="confirmpw" />
+                        Confirm Password: <input type="password" name="confirmpw" id="confirmpw" />
                     </div>
                 </div>
                 <div className="button-group">

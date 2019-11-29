@@ -17,6 +17,15 @@ export default class Functionality extends Component {
                 isManager: currentUser.isManager
             };
         }
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        StaticData.logoutCurrentUser();
+        this.setState({
+            loggedIn: false,
+            currentUser: undefined
+        });
     }
 
     userOptions() {
@@ -24,7 +33,7 @@ export default class Functionality extends Component {
             <div className="functionality-options">
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button" > Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
@@ -36,7 +45,7 @@ export default class Functionality extends Component {
                 <Link to="/viewhistory" className="button">View History</Link>
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
@@ -48,7 +57,7 @@ export default class Functionality extends Component {
                 <Link to="/schedulemovie" className="button">Schedule Movie</Link>
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
@@ -62,7 +71,7 @@ export default class Functionality extends Component {
                 <Link to="/schedulemovie" className="button">Schedule Movie</Link>
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
@@ -75,7 +84,7 @@ export default class Functionality extends Component {
                 <Link to="/createmovie" className="button">Create Movie</Link>
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
@@ -90,14 +99,16 @@ export default class Functionality extends Component {
                 <Link to="/viewhistory" className="button">View History</Link>
                 <Link to="/exploretheater" className="button">Explore Theater</Link>
                 <Link to="/visithistory" className="button">Visit History</Link>
-                <Link to={{ pathname: "/", state: { loggedOut: true } }} className="button">Back</Link>
+                <div className="button" onClick={this.logout}>Back</div>
             </div>
         );
     }
 
     render() {
         if (!this.state.loggedIn) {
-            return (<Redirect to="/login" />);
+            return (<Redirect to={{
+                pathname: "/login", state: { loggedOut: true }
+            }} />);
         }
 
         let userType;
