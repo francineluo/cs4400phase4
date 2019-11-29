@@ -14,6 +14,7 @@ The cause for this is unknown. This may affect app usage in the following ways:
 - When registering a new user, clicking register may return you to the login screen. In this case, simply log in with the credentials of the new account to proceed normally.
 - When filtering a table, you may have to click "Filter" twice in order for the table to be updated.
 - When logging in, the wrong user type may be loaded. Log out and log back in to get the correct functionality screen.
+- When opening a page, it may contain old data. Click "Back" and then open the page again to get the updated data.
 
 It should also be noted that session data is not saved. So if you refresh the page,
 you will be logged out and must log in again to access any page besides login/registration.

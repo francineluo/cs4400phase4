@@ -37,7 +37,7 @@ export default class TheaterOverview extends Component {
                     message: "You are not currently assigned to a theater, so there is nothing to see."
                 });
             } else {
-                this.setState({ showMessage: false });
+                this.setState({ showMessage: false }, this.render);
             }
         }
     }
@@ -45,7 +45,7 @@ export default class TheaterOverview extends Component {
     getManagerTheater() {
         fetch("/api/get_manager_theater?manager=" + this.state.currentUser.username)
             .then(response => response.json())
-            .then(data => this.setState({ managerTheater: data }));
+            .then(data => this.setState({ managerTheater: data }, this.render));
     }
 
     filterMovies() {
@@ -68,7 +68,7 @@ export default class TheaterOverview extends Component {
 
         fetch("/api/get_filtered_movies")
             .then(response => response.json())
-            .then(data => this.setState({ movies: data }));
+            .then(data => this.setState({ movies: data }, this.render));
     }
 
     movieList() {

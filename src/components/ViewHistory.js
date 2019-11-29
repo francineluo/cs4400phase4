@@ -32,7 +32,7 @@ export default class ViewHistory extends Component {
             .then(response => response.json())
             .then(data => {
                 if (this.verifyData(data)) {
-                    this.setState({ viewHistory: data });
+                    this.setState({ viewHistory: data }, this.render);
                 }
             });
     }

@@ -38,22 +38,24 @@ export default class ExploreMovie extends Component {
     getAllMovies() {
         fetch("/api/get_all_movies")
             .then(response => response.json())
-            .then(data => this.setState({ allMovies: data }));
+            .then(data => this.setState({ allMovies: data }, this.movieDropdown));
     }
 
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.companyDropdown));
     }
 
     getCardNumbers() {
         fetch("/api/customer_get_cards?username=" + this.state.currentUser.username)
             .then(response => response.json())
-            .then(data => this.setState({ creditCards: data }));
+            .then(data => this.setState({ creditCards: data }, this.cardDropdown));
     }
 
     filterMovies() {
+        this.setState({ showMessage: false });
+
         var url = new URL("http://" + window.location.host + "/api/customer_filter_mov");
         var params = {
             movie: document.getElementById("movie").value,
@@ -66,11 +68,10 @@ export default class ExploreMovie extends Component {
         url.search = new URLSearchParams(params).toString();
 
         fetch(url)
-            .then(response => response.json());
-
-        fetch("/api/get_customer_filtered_mov")
             .then(response => response.json())
-            .then(data => this.setState({ filteredMovies: data }));
+            .then(fetch("/api/get_customer_filtered_mov")
+            .then(response => response.json())
+            .then(data => this.setState({ filteredMovies: data }, this.movieList)));
     }
 
     viewMovie() {

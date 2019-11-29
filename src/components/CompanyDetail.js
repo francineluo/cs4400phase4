@@ -21,20 +21,18 @@ export default class CompanyDetail extends Component {
 
     getEmployees() {
         fetch("/api/admin_view_comDetail_emp?comName=" + this.state.company)
-            .then(response => response.json());
-
-        fetch("/api/get_company_employees")
             .then(response => response.json())
-            .then(data => this.setState({ employees: data }));
+            .then(fetch("/api/get_company_employees")
+                .then(response => response.json())
+                .then(data => this.setState({ employees: data }, this.listEmployees)));
     }
 
     getTheaters() {
         fetch("/api/admin_view_comDetail_th?comName=" + this.state.company)
-            .then(response => response.json());
-
-        fetch("/api/get_comDetail_theaters")
             .then(response => response.json())
-            .then(data => this.setState({ theaters: data }));
+            .then(fetch("/api/get_comDetail_theaters")
+            .then(response => response.json())
+            .then(data => this.setState({ theaters: data }, this.theaterList)));
     }
 
     listEmployees() {

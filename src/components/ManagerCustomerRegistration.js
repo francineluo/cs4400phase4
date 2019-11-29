@@ -13,6 +13,7 @@ export default class ManagerCustomerRegistration extends Component {
             allUsernames: [],
             allCreditCards: [],
             allCompanies: [],
+            managerAddresses: [],
             userInfo: [],
             creditCards: []
         }
@@ -23,6 +24,7 @@ export default class ManagerCustomerRegistration extends Component {
         this.getAllUsernames();
         this.getAllCreditCards();
         this.getAllCompanies();
+        this.getManagerAddresses();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -47,7 +49,13 @@ export default class ManagerCustomerRegistration extends Component {
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.companyDropdown));
+    }
+
+    getManagerAddresses() {
+        fetch("/api/get_manager_addresses")
+            .then(response => response.json())
+            .then(data => this.setState({ managerAddresses: data }));
     }
 
     checkFields() {
@@ -113,7 +121,20 @@ export default class ManagerCustomerRegistration extends Component {
             });
             return false;
         }
-        //TODO: check for unique address
+
+        let address = street + city + state + zip;
+        for (let i = 0; i < this.state.managerAddresses.length; i++) {
+            let currAddress = this.state.managerAddresses[i];
+            let str = currAddress.manStreet + currAddress.manCity + currAddress.manState + currAddress.manZip;
+            if (str === address) {
+                this.setState({
+                    showMessage: true,
+                    message: "Address is already in use"
+                });
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -160,11 +181,10 @@ export default class ManagerCustomerRegistration extends Component {
             url.search = new URLSearchParams(params).toString();
 
             fetch(url)
-                .then(response => response.json());
-
-            fetch("/api/get_user_info")
                 .then(response => response.json())
-                .then(data => this.setState({ userInfo: data }));
+                .then(fetch("/api/get_user_info")
+                .then(response => response.json())
+                .then(data => this.setState({ userInfo: data })));
         }
     }
 
@@ -172,7 +192,7 @@ export default class ManagerCustomerRegistration extends Component {
         let elements = [];
         for (let i in this.state.creditCards) {
             elements.push(
-                <div className="card-info">
+                <div key={i} className="card-info">
                     {this.state.creditCards[i]}
                     <div className="card-button" name="remove" onClick={e => this.removeCard(i)}>Remove</div>
                 </div>
@@ -181,7 +201,7 @@ export default class ManagerCustomerRegistration extends Component {
 
         if (elements.length < 5) {
             elements.push(
-                <div className="card-info">
+                <div key="add" className="card-info">
                     <input type="number" name="newcard" id="newcard" min="0"/>
                     <div className="card-button" onClick={this.addCard}>Add</div>
                 </div>

@@ -41,7 +41,7 @@ export default class VisitHistory extends Component {
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.render));
     }
 
     filterVisitHistory() {
@@ -64,7 +64,7 @@ export default class VisitHistory extends Component {
             .then(response => response.json())
             .then(data => {
                 this.verifyData(data);
-                this.setState({ visitHistory: data }, this.showVisitHistory);
+                this.setState({ visitHistory: data }, this.render);
             });
     }
 

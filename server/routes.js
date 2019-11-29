@@ -98,6 +98,16 @@ router.get('/api/manager_only_register', async (req, res) => {
     }
 });
 
+router.get('/api/get_manager_addresses', async (req, res) => {
+    try {
+        let queryResult = await DB.Registration.get_manager_addresses();
+        res.json(queryResult);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
 //Screen 6: Manager-Customer register
 router.get('/api/manager_customer_register', async (req, res) => {
     try {

@@ -59,7 +59,7 @@ export default class ManageUser extends Component {
 
         fetch(url)
             .then(response => response.json())
-            .then(data => this.setState({ users: data }));
+            .then(data => this.setState({ users: data }, this.userList));
     }
 
     approve() {

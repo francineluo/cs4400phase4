@@ -39,7 +39,7 @@ export default class CustomerRegistration extends Component {
     getAllCreditCards() {
         fetch("/api/get_all_creditcards")
             .then(response => response.json())
-            .then(data => this.setState({ allCreditCards: data }));
+            .then(data => this.setState({ allCreditCards: data }, this.creditCardNums));
     }
 
     checkFields() {
@@ -128,11 +128,10 @@ export default class CustomerRegistration extends Component {
             url.search = new URLSearchParams(params).toString();
 
             fetch(url)
-                .then(response => response.json());
-
-            fetch("/api/get_user_info")
                 .then(response => response.json())
-                .then(data => this.setState({ userInfo: data }));
+                .then(fetch("/api/get_user_info")
+                .then(response => response.json())
+                .then(data => this.setState({ userInfo: data })));
         }
     }
 

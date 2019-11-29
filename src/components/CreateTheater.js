@@ -35,14 +35,14 @@ export default class CreateTheater extends Component {
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.companyDropdown));
     }
 
     getEligibleManagers() {
         let company = document.getElementById("company").value;
         fetch("/api/get_eligible_managers?company=" + company)
             .then(response => response.json())
-            .then(data => this.setState({ eligibleManagers: data }));
+            .then(data => this.setState({ eligibleManagers: data }, this.managerDropdown));
     }
 
     //called right before creating a theater to check if name is unique
@@ -130,7 +130,7 @@ export default class CreateTheater extends Component {
             fetch(url)
                 .then(response => response.json());
 
-            this.setState({ redirect: true });
+            this.setState({ redirect: true }, this.showMessage);
         }
     }
 

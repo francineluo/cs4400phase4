@@ -36,13 +36,13 @@ export default class ExploreTheater extends Component {
     getAllTheaters() {
         fetch("/api/get_all_theaters")
             .then(response => response.json())
-            .then(data => this.setState({ allTheaters: data }));
+            .then(data => this.setState({ allTheaters: data }, this.theaterDropdown));
     }
 
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.companyDropdown));
     }
 
     filterTheaters() {
@@ -58,11 +58,10 @@ export default class ExploreTheater extends Component {
         url.search = new URLSearchParams(params).toString();
 
         fetch(url)
-            .then(response => response.json());
-
-        fetch("/api/user_get_filtered_th")
             .then(response => response.json())
-            .then(data => this.setState({ filteredTheaters: data }));
+            .then(fetch("/api/user_get_filtered_th")
+                .then(response => response.json())
+                .then(data => this.setState({ filteredTheaters: data }, this.theaterList)));
     }
 
     visitTheater() {

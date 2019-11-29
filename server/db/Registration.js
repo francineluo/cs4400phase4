@@ -59,6 +59,19 @@ export const manager_only_register = async (params) => {
     });
 }
 
+export const get_manager_addresses = async () => {
+    return new Promise((resolve, reject) => {
+        Connection.query(
+            "SELECT manStreet, manCity, manState, manZip FROM Manager",
+            (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+    });
+}
+
 //manager-customer
 export const manager_customer_register = async (params) => {
     return new Promise((resolve, reject) => {
@@ -133,6 +146,7 @@ export default {
     customer_only_register,
     customer_add_creditcard,
     manager_only_register,
+    get_manager_addresses,
     manager_customer_register,
     manager_customer_add_creditcard,
     get_all_usernames,

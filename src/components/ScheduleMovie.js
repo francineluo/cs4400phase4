@@ -60,7 +60,7 @@ export default class ScheduleMovie extends Component {
     getAllMovies() {
         fetch("/api/get_all_movies")
             .then(response => response.json())
-            .then(data => this.setState({ allMovies: data }));
+            .then(data => this.setState({ allMovies: data }, this.movieDropdown));
     }
 
     checkFields() {

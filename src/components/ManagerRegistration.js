@@ -12,6 +12,7 @@ export default class ManagerRegistration extends Component {
             message: "",
             allUsernames: [],
             allCompanies: [],
+            managerAddresses: [],
             userInfo: []
         }
     }
@@ -19,6 +20,7 @@ export default class ManagerRegistration extends Component {
     componentDidMount() {
         this.getAllUsernames();
         this.getAllCompanies();
+        this.getManagerAddresses();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -37,7 +39,13 @@ export default class ManagerRegistration extends Component {
     getAllCompanies() {
         fetch("/api/get_all_companies")
             .then(response => response.json())
-            .then(data => this.setState({ allCompanies: data }));
+            .then(data => this.setState({ allCompanies: data }, this.companyDropdown));
+    }
+
+    getManagerAddresses() {
+        fetch("/api/get_manager_addresses")
+            .then(response => response.json())
+            .then(data => this.setState({ managerAddresses: data }));
     }
 
     checkFields() {
@@ -97,7 +105,20 @@ export default class ManagerRegistration extends Component {
             });
             return false;
         }
-        //TODO: check for unique address
+
+        let address = street + city + state + zip;
+        for (let i = 0; i < this.state.managerAddresses.length; i++) {
+            let currAddress = this.state.managerAddresses[i];
+            let str = currAddress.manStreet + currAddress.manCity + currAddress.manState + currAddress.manZip;
+            if (str === address) {
+                this.setState({
+                    showMessage: true,
+                    message: "Address is already in use"
+                });
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -131,11 +152,10 @@ export default class ManagerRegistration extends Component {
             url.search = new URLSearchParams(params).toString();
 
             fetch(url)
-                .then(response => response.json());
-
-            fetch("/api/get_user_info")
                 .then(response => response.json())
-                .then(data => this.setState({ userInfo: data }));
+                .then(fetch("/api/get_user_info")
+                .then(response => response.json())
+                .then(data => this.setState({ userInfo: data })));
         }
     }
 

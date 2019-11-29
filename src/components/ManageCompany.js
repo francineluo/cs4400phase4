@@ -60,7 +60,7 @@ export default class ManageCompany extends Component {
 
         fetch(url)
             .then(response => response.json())
-            .then(data => this.setState({ companies: data }));
+            .then(data => this.setState({ companies: data }, this.companyList));
     }
 
     createTheater() {

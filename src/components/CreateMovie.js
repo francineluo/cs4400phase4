@@ -30,7 +30,6 @@ export default class CreateMovie extends Component {
             return false;
         }
 
-        //TODO: check for unique combination of name and releasedate
         if (duration.charAt(0) === "-") {
             this.setState({
                 showMessage: true,
